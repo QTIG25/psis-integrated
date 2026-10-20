@@ -7,10 +7,10 @@
   <title>PSIS Integrated — Secure Intelligence Terminal</title>
   <style>
     :root {
-      --bg-base: #0b0e14;
-      --bg-surface: #111620;
-      --bg-card: #161d2d;
-      --border-color: #212d42;
+      --bg-base: #07090d;
+      --bg-surface: #0f131c;
+      --bg-card: #151a26;
+      --border-color: #222b3d;
       --text-main: #c9d1d9;
       --text-muted: #8b949e;
       --accent-blue: #1f6feb;
@@ -21,28 +21,27 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
     body { background-color: var(--bg-base); color: var(--text-main); padding: 20px; line-height: 1.5; }
     
-    /* Pre-Login Warning Gate Stages */
+    /* Intimidating Legal Warning Gates */
     .gate-overlay { position: fixed; inset: 0; background: var(--bg-base); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; }
-    .gate-card { background: var(--bg-surface); border: 1.5px solid var(--border-color); border-radius: 6px; width: 100%; max-width: 600px; padding: 32px; box-shadow: 0 12px 36px rgba(0,0,0,0.5); }
-    .bs-warning-box { background: rgba(210,153,34,0.1); border-left: 4px solid var(--accent-gold); padding: 14px 18px; font-size: 11px; color: #f0883e; font-weight: 700; margin-bottom: 20px; line-height: 1.6; text-transform: uppercase; }
+    .gate-card { background: var(--bg-surface); border: 2px solid var(--accent-red); border-radius: 6px; width: 100%; max-width: 640px; padding: 36px; box-shadow: 0 16px 48px rgba(218,54,51,0.25); }
+    .legal-alert-box { background: rgba(218,54,51,0.12); border-left: 5px solid var(--accent-red); padding: 16px; font-size: 11px; color: #ff7b72; font-weight: 800; margin-bottom: 20px; line-height: 1.7; text-transform: uppercase; letter-spacing: 0.5px; }
 
-    /* Security Hold Screen (Close Screen) */
+    /* Security Hold Screen */
     #securityHoldScreen { position: fixed; inset: 0; background: #ffffff; color: #1f2328; z-index: 9998; display: none; align-items: center; justify-content: center; padding: 40px; font-family: Helvetica, Arial, sans-serif; }
-    .hold-content { max-width: 600px; border: 3px solid #1f2328; padding: 40px; text-align: center; }
+    .hold-content { max-width: 600px; border: 4px solid #da3633; padding: 40px; text-align: center; }
 
-    /* Lockdown Overlay Banner */
-    #lockdownBanner { position: fixed; top: 0; left: 0; right: 0; background: var(--accent-red); color: #fff; text-align: center; padding: 8px; font-weight: 900; font-size: 12px; letter-spacing: 2px; z-index: 9990; display: none; text-transform: uppercase; }
+    /* Lockdown Banner */
+    #lockdownBanner { position: fixed; top: 0; left: 0; right: 0; background: var(--accent-red); color: #fff; text-align: center; padding: 10px; font-weight: 900; font-size: 13px; letter-spacing: 3px; z-index: 9990; display: none; text-transform: uppercase; animation: pulseBanner 1s infinite alternate; }
+    @keyframes pulseBanner { from { background: #da3633; } to { background: #9e2a2b; } }
 
     /* Dashboard Layout */
-    #dashboardApp { display: none; max-width: 1300px; margin: 0 auto; transition: opacity 0.3s ease; }
+    #dashboardApp { display: none; max-width: 1300px; margin: 0 auto; }
     header { display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface); border: 1px solid var(--border-color); padding: 16px 24px; border-radius: 6px; margin-bottom: 20px; }
     .brand { font-weight: 900; font-size: 16px; letter-spacing: 1px; color: #ffffff; text-transform: uppercase; }
     .brand span { color: var(--accent-blue); }
     
-    /* Emergency Control Ribbon */
-    .emergency-ribbon { display: flex; gap: 10px; margin-bottom: 15px; background: rgba(218,54,51,0.08); border: 1px solid rgba(218,54,51,0.3); padding: 10px; border-radius: 6px; align-items: center; justify-content: space-between; }
+    .emergency-ribbon { display: flex; gap: 10px; margin-bottom: 15px; background: rgba(218,54,51,0.12); border: 1.5px solid var(--accent-red); padding: 12px; border-radius: 6px; align-items: center; justify-content: space-between; }
 
-    /* Navigation Tabs */
     .nav-bar { display: flex; gap: 8px; margin-bottom: 20px; background: var(--bg-surface); padding: 8px; border: 1px solid var(--border-color); border-radius: 6px; overflow-x: auto; }
     .nav-btn { background: transparent; border: none; color: var(--text-muted); padding: 8px 14px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; border-radius: 4px; white-space: nowrap; }
     .nav-btn.active { background: var(--accent-blue); color: #fff; }
@@ -76,85 +75,89 @@
 <body>
 
   <!-- ACTIVE LOCKDOWN BANNER -->
-  <div id="lockdownBanner">CRITICAL ALERT: FACILITY UNDER ACTIVE LOCKDOWN — PROTOCOL SECURE ENGAGED</div>
+  <div id="lockdownBanner">CRITICAL SECURITY ALERT: FACILITY UNDER ACTIVE LOCKDOWN — UNAUTHORIZED INTERFERENCE DETECTED</div>
 
-  <!-- SECURITY HOLD SCREEN (CLOSE SCREEN) -->
+  <!-- SECURITY HOLD SCREEN -->
   <div id="securityHoldScreen">
     <div class="hold-content">
-      <div style="font-size: 12px; font-weight: 900; letter-spacing: 3px; color: #d29922; margin-bottom: 10px;">CONFIDENTIAL</div>
-      <div style="font-size: 32px; font-weight: 900; letter-spacing: 4px; color: #1f2328; margin-bottom: 20px;">S E C U R I T Y&nbsp;&nbsp;&nbsp;&nbsp;H O L D</div>
+      <div style="font-size: 12px; font-weight: 900; letter-spacing: 4px; color: #da3633; margin-bottom: 10px;">RESTRICTED CLASSIFICATION</div>
+      <div style="font-size: 32px; font-weight: 900; letter-spacing: 6px; color: #1f2328; margin-bottom: 20px;">S E C U R I T Y&nbsp;&nbsp;&nbsp;&nbsp;H O L D</div>
       <p style="font-size: 13px; color: #57606a; line-height: 1.6; margin-bottom: 30px;">
-        This terminal interface has been secured under immediate supervisory protocol. Unattended active workstations are locked to prevent unauthorized disclosure of counter-fraud operations and confidential scam intelligence.
+        This intelligence workstation has been secured under immediate supervisory protocol in accordance with UK operational security standards. Unattended active terminals are locked to prevent unauthorized viewing of active counter-fraud operations.
       </p>
-      <button onclick="liftSecurityHold()" style="background: #1f2328; color: #fff; padding: 12px 24px;">RESTORE TERMINAL SESSION</button>
+      <button onclick="liftSecurityHold()" style="background: #1f2328; color: #fff; padding: 12px 24px;">RESTORE OPERATOR SESSION</button>
     </div>
   </div>
 
-  <!-- WARNING STAGE 1: Public Overview & Purpose -->
+  <!-- WARNING STAGE 1: Computer Misuse Act & Criminal Liability -->
   <div id="warningStage1" class="gate-overlay">
     <div class="gate-card">
-      <div style="font-weight: 900; font-size: 16px; color: #fff; margin-bottom: 4px; text-transform: uppercase;">PSIS Integrated // Public Directive</div>
-      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 16px; text-transform: uppercase;">The People's Secret Intelligence Service</div>
+      <div style="font-weight: 900; font-size: 18px; color: #fff; margin-bottom: 4px; text-transform: uppercase;">⚠️ WARNING: RESTRICTED INTELLIGENCE TERMINAL</div>
+      <div style="font-size: 11px; color: var(--accent-red); font-weight: 800; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px;">UK Computer Misuse Act 1990 — Strict Legal Enforcement</div>
       
-      <div class="bs-warning-box">
-        Notice: PSIS is an independent civilian counter-fraud intelligence collective. We investigate, track, and document active online financial scammers to protect the public. This portal contains restricted intelligence.
+      <div class="legal-alert-box">
+        Notice: You have accessed a secure cryptographic node operated by The People's Secret Intelligence Service (PSIS). Under Section 1 and Section 3 of the Computer Misuse Act 1990, unauthorized access, probing, or interference with active counter-fraud intelligence systems is a criminal offense punishable by imprisonment and unlimited fines.
       </div>
 
-      <p style="font-size: 12px; color: var(--text-main); margin-bottom: 20px; line-height: 1.6;">
-        You are attempting to access a specialized intelligence coordination platform. Operating outside established legal boundaries or attempting to disrupt active scam takedowns is strictly monitored.
+      <p style="font-size: 12px; color: var(--text-main); margin-bottom: 24px; line-height: 1.6;">
+        This portal is strictly reserved for authorized Intelligence Analysts (IAs) engaged in the tracking and dismantling of organized online financial fraud networks. If you are not an assigned operative, you must immediately disconnect from this endpoint.
       </p>
 
-      <button onclick="advanceWarning(2)" style="width: 100%;">Proceed to Legal Compliance Notice (1 of 3)</button>
+      <button onclick="advanceWarning(2)" style="width: 100%; background: var(--accent-red);">I Understand & Acknowledge Legal Liability (1 of 3)</button>
     </div>
   </div>
 
-  <!-- WARNING STAGE 2: Legal Boundaries & Compliance -->
+  <!-- WARNING STAGE 2: Forensic Telemetry & IP Logging -->
   <div id="warningStage2" class="gate-overlay" style="display: none;">
     <div class="gate-card">
-      <div style="font-weight: 900; font-size: 16px; color: #fff; margin-bottom: 4px; text-transform: uppercase;">Regulatory & Legal Compliance</div>
-      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 16px; text-transform: uppercase;">BS / ISO Safety & Security Standards</div>
+      <div style="font-weight: 900; font-size: 18px; color: #fff; margin-bottom: 4px; text-transform: uppercase;">⚠️ FORENSIC SURVEILLANCE & DIGITAL WATERMARKING</div>
+      <div style="font-size: 11px; color: var(--accent-red); font-weight: 800; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px;">Mandatory Telemetry Capture Protocol</div>
       
-      <div class="bs-warning-box" style="border-left-color: var(--accent-red); color: #ff7b72;">
-        Legal Warning: Unauthorized interception, data harvesting, or automated scraping of intelligence logs violates anti-fraud protection statutes. All access attempts are cryptographically timestamped.
+      <div class="legal-alert-box">
+        By proceeding past this barrier, you formally acknowledge and consent to the automated extraction and forensic logging of your connection metadata. Your incoming IP address, browser hardware fingerprints, session timing, and cryptographic handshake tokens are permanently recorded.
       </div>
 
-      <p style="font-size: 12px; color: var(--text-main); margin-bottom: 20px; line-height: 1.6;">
-        In accordance with operational security standards, all evidence gathered is processed exclusively for formal reporting to relevant authorities and victim support networks.
+      <p style="font-size: 12px; color: var(--text-main); margin-bottom: 24px; line-height: 1.6;">
+        In the event of unauthorized access attempts, scammer interference, or data exfiltration, captured telemetry is bundled into formal evidence dossiers and transferred directly to national cyber crime authorities and financial fraud bureaus.
       </p>
 
       <div style="display: flex; gap: 10px;">
-        <button onclick="advanceWarning(1)" class="btn-dark" style="flex: 1;">Back</button>
-        <button onclick="advanceWarning(3)" style="flex: 1;">Acknowledge & Continue (2 of 3)</button>
+        <button onclick="advanceWarning(1)" class="btn-dark" style="flex: 1;">Return</button>
+        <button onclick="advanceWarning(3)" style="flex: 1; background: var(--accent-red);">Proceed to Final Legal Threshold (2 of 3)</button>
       </div>
     </div>
   </div>
 
-  <!-- WARNING STAGE 3: Final Security Acknowledgment -->
+  <!-- WARNING STAGE 3: Irrevocable Consent & Threshold Lock -->
   <div id="warningStage3" class="gate-overlay" style="display: none;">
     <div class="gate-card">
-      <div style="font-weight: 900; font-size: 16px; color: #fff; margin-bottom: 4px; text-transform: uppercase;">Terminal Access Authorization</div>
-      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 16px; text-transform: uppercase;">Restricted Operator Gateway</div>
+      <div style="font-weight: 900; font-size: 18px; color: #fff; margin-bottom: 4px; text-transform: uppercase;">⚠️ FINAL LEGAL THRESHOLD — TURN BACK NOW</div>
+      <div style="font-size: 11px; color: var(--accent-red); font-weight: 800; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px;">Irrevocable Operational Consent</div>
       
-      <div class="bs-warning-box">
-        Final Warning: You are about to enter the restricted operator terminal. Valid Intelligence Analyst credentials or Administrative passphrases are required.
+      <div class="legal-alert-box">
+        CRITICAL WARNING: If you are an unauthorized third party, scammer associate, or web scraper attempting to compromise ongoing PSIS operations, crossing this threshold constitutes explicit agreement to immediate digital tracking, evidence archiving, and potential criminal prosecution under British law.
       </div>
 
+      <p style="font-size: 12px; color: var(--text-main); margin-bottom: 24px; line-height: 1.6;">
+        If you possess valid operator credentials, proceed to authentication. Otherwise, close this window immediately.
+      </p>
+
       <div style="display: flex; gap: 10px;">
-        <button onclick="advanceWarning(2)" class="btn-dark" style="flex: 1;">Back</button>
-        <button onclick="showLoginGate()" style="flex: 1;">Proceed to Operator Login</button>
+        <button onclick="advanceWarning(2)" class="btn-dark" style="flex: 1;">Return to Safety</button>
+        <button onclick="showLoginGate()" style="flex: 1; background: var(--accent-red);">I Accept Full Legal Risk — Enter Login</button>
       </div>
     </div>
   </div>
 
   <!-- OPERATOR LOGIN GATE -->
   <div id="kioskGate" class="gate-overlay" style="display: none;">
-    <div class="kiosk-card">
-      <div style="font-weight: 900; font-size: 18px; color: #fff; margin-bottom: 4px; text-transform: uppercase;">PSIS Terminal Authentication</div>
-      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 16px; text-transform: uppercase;">Enter Assigned Callsign & Passphrase</div>
+    <div class="kiosk-card" style="border-color: var(--accent-blue);">
+      <div style="font-weight: 900; font-size: 18px; color: #fff; margin-bottom: 4px; text-transform: uppercase;">PSIS Secure Terminal Authentication</div>
+      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 16px; text-transform: uppercase;">Enter Assigned Intelligence Analyst Callsign & Passphrase</div>
       
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
         <div>
-          <label style="display: block; font-size: 10px; font-weight: 800; text-transform: uppercase; margin-bottom: 4px;">Callsign / Admin ID</label>
+          <label style="display: block; font-size: 10px; font-weight: 800; text-transform: uppercase; margin-bottom: 4px;">Operator Callsign</label>
           <input type="text" id="loginCallsign" placeholder="e.g. IA-101">
         </div>
         <div>
@@ -162,7 +165,7 @@
           <input type="password" id="loginPass" placeholder="Passphrase...">
         </div>
       </div>
-      <button onclick="authenticateKiosk()" style="width: 100%;">Initialize Terminal Session</button>
+      <button onclick="authenticateKiosk()" style="width: 100%;">Authorize Terminal Session</button>
       <div id="gateError" style="font-size: 11px; color: var(--accent-red); font-weight: 800; margin-top: 10px; text-align: center;"></div>
     </div>
   </div>
@@ -172,23 +175,23 @@
     <header>
       <div>
         <div class="brand"><span>PSIS</span> Integrated</div>
-        <div style="font-size: 10px; color: var(--text-muted); font-weight: 700; letter-spacing: 0.5px; margin-top: 2px;">ACTIVE SESSION: <span id="activeCallsignDisplay" style="color: var(--accent-blue);">IA-101</span></div>
+        <div style="font-size: 10px; color: var(--text-muted); font-weight: 700; letter-spacing: 0.5px; margin-top: 2px;">ACTIVE OPERATOR: <span id="activeCallsignDisplay" style="color: var(--accent-blue);">IA-101</span></div>
       </div>
       <div style="text-align: right;">
         <div id="utcClock" style="font-family: monospace; font-weight: 800; font-size: 14px; color: var(--accent-gold);">00:00:00 UTC</div>
-        <div style="font-size: 9px; color: var(--accent-green); font-weight: 800; text-transform: uppercase;">Status: BS-Compliant Secure</div>
+        <div style="font-size: 9px; color: var(--accent-green); font-weight: 800; text-transform: uppercase;">Status: Secure Zero-Trust</div>
       </div>
     </header>
 
-    <!-- Strategic Emergency Control Ribbon -->
+    <!-- Emergency Control Ribbon (Strict Override Hierarchy) -->
     <div class="emergency-ribbon">
-      <div style="font-size: 11px; font-weight: 800; color: #ff7b72; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px;">
-        <span>⚠️ EMERGENCY CONTROL PROTOCOLS</span>
+      <div style="font-size: 11px; font-weight: 900; color: #ff7b72; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px;">
+        <span>🚨 PRIORITY EMERGENCY CONTROLS</span>
       </div>
       <div style="display: flex; gap: 8px;">
-        <button onclick="triggerSiteEvac()" class="btn-danger" style="padding: 6px 12px; font-size: 10px;">SITE EVACUATION</button>
-        <button onclick="triggerLockdown()" class="btn-dark" style="background: #302000; border-color: var(--accent-gold); color: var(--accent-gold); padding: 6px 12px; font-size: 10px;">FACILITY LOCKDOWN</button>
-        <button onclick="triggerCloseScreen()" class="btn-dark" style="padding: 6px 12px; font-size: 10px;">CLOSE SCREEN (HOLD)</button>
+        <button onclick="triggerSiteEvac()" class="btn-danger" style="padding: 8px 14px; font-size: 11px;">SITE EVACUATION (OVERIDES LOCKDOWN)</button>
+        <button onclick="triggerLockdown()" class="btn-dark" style="background: #3d2200; border-color: var(--accent-gold); color: var(--accent-gold); padding: 8px 14px; font-size: 11px;">FACILITY LOCKDOWN</button>
+        <button onclick="triggerCloseScreen()" class="btn-dark" style="padding: 8px 14px; font-size: 11px;">CLOSE SCREEN (HOLD)</button>
       </div>
     </div>
 
@@ -328,7 +331,7 @@
         <div class="panel-title"><span>System Administrator Controls</span><span>Restricted Access</span></div>
         
         <div id="adminAuthBox">
-          <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Enter System Administrator passphrase to unlock alarm reset and emergency override controls.</p>
+          <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Enter System Administrator passphrase (`PSIS-ADMIN-2026-X9!k`) to unlock alarm reset and emergency override controls.</p>
           <input type="password" id="adminPassInput" placeholder="Admin Passphrase...">
           <button onclick="verifyAdminPass()" style="width: 100%;">Authenticate Admin Mode</button>
           <div id="adminAuthError" style="font-size: 11px; color: var(--accent-red); font-weight: 800; margin-top: 8px;"></div>
@@ -341,7 +344,7 @@
           <div style="display: flex; flex-direction: column; gap: 12px;">
             <button onclick="silenceAlarms()" class="btn-dark" style="padding: 12px;">SILENCE ACTIVE EMERGENCY ALARMS</button>
             <button onclick="clearLockdown()" class="btn-dark" style="padding: 12px;">DISENGAGE FACILITY LOCKDOWN</button>
-            <button onclick="triggerEvacuation()" class="btn-danger" style="padding: 12px;">EXECUTE TERMINAL WIPE (PROTOCOL OMEGA)</button>
+            <button onclick="triggerEvacuation()" class="btn-danger" style="padding: 12px;">EXECUTE TERMINAL WIPE (PROTOCOL OMEGA OVERRIDE)</button>
           </div>
         </div>
       </div>
@@ -356,10 +359,10 @@
           <p style="margin-bottom: 16px; color: var(--text-muted);">The People's Secret Intelligence Service (PSIS) operates strictly as an independent counter-fraud collective. Our objective is the identification, documentation, and takedown of active online financial fraudsters targeting civilians.</p>
           
           <h4 style="color: #fff; margin-bottom: 6px; font-size: 13px;">2.0 Ethical & Legal Boundaries</h4>
-          <p style="margin-bottom: 16px; color: var(--text-muted);">All intelligence gathering must adhere to verifiable OSINT methodologies. Analysts are strictly prohibited from deploying malicious payloads, executing unauthorized denial-of-service attacks, or violating individual data privacy outside of established scam networks.</p>
+          <p style="margin-bottom: 16px; color: var(--text-muted);">All intelligence gathering must adhere to verifiable OSINT methodologies under strict compliance with UK legal frameworks. Analysts are prohibited from violating individual data privacy outside of established fraudulent networks.</p>
 
           <h4 style="color: #fff; margin-bottom: 6px; font-size: 13px;">3.0 Information Classification</h4>
-          <p style="color: var(--text-muted);">All records generated within PSIS Integrated are classified as <strong>CONFIDENTIAL // INTERNAL USE ONLY</strong>. Unauthorized disclosure of scammer telemetry prior to official takedown coordination compromises ongoing operations.</p>
+          <p style="color: var(--text-muted);">All records generated within PSIS Integrated are classified as <strong>CONFIDENTIAL // INTERNAL USE ONLY</strong>.</p>
         </div>
       </div>
     </div>
@@ -373,10 +376,7 @@
           <p style="margin-bottom: 16px; color: var(--text-muted);">PSIS Integrated is engineered as a client-side single-page intelligence workspace. By stripping away traditional backend server databases, the platform eliminates server-side attack vectors entirely.</p>
           
           <h4 style="color: #fff; margin-bottom: 6px; font-size: 13px;">2.0 Cryptographic Specifications</h4>
-          <p style="margin-bottom: 16px; color: var(--text-muted);">Encryption is handled natively via the browser's <code>window.crypto.subtle</code> API. Passphrases are stretched using PBKDF2 with 100,000 iterations of SHA-256, protecting against dictionary and brute-force attacks.</p>
-
-          <h4 style="color: #fff; margin-bottom: 6px; font-size: 13px;">3.0 Anti-Scraper & Crawler Mitigation</h4>
-          <p style="color: var(--text-muted);">The root document implements strict HTTP robots headers (`noindex, nofollow, noarchive`) alongside a cryptographic kiosk gate, preventing automated web scrapers or bad actors from indexing operational evidence.</p>
+          <p style="margin-bottom: 16px; color: var(--text-muted);">Encryption is handled natively via the browser's <code>window.crypto.subtle</code> API using AES-256-GCM and PBKDF2 key stretching (100,000 iterations).</p>
         </div>
       </div>
     </div>
@@ -409,45 +409,53 @@
       document.getElementById('kioskGate').style.display = 'flex';
     }
 
-    // Audio Alarm Synthesizer (Web Audio API - BS 5839 Cadence)
+    // High-Urgency Alarm Synthesizer (Harsh Dual-Tone Klaxon)
     let audioCtx = null;
     let alarmInterval = null;
 
-    function playAlarmSound() {
+    function playHarshAlarm(isEvac = false) {
       if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       if (alarmInterval) clearInterval(alarmInterval);
 
+      let toggle = false;
       alarmInterval = setInterval(() => {
         if (!audioCtx) return;
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(880, audioCtx.currentTime); // High pitch alarm tone
-        osc.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 0.4);
-        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+        osc.type = isEvac ? 'sawtooth' : 'square';
+        
+        // Rapid frequency alternating for intense alarm effect
+        osc.frequency.setValueAtTime(isEvac ? 1200 : 700, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(isEvac ? 600 : 400, audioCtx.currentTime + 0.25);
+
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
+
         osc.connect(gain);
         gain.connect(audioCtx.destination);
         osc.start();
-        osc.stop(audioCtx.currentTime + 0.4);
-      }, 600);
+        osc.stop(audioCtx.currentTime + 0.25);
+      }, 300);
     }
 
     function silenceAlarms() {
       if (alarmInterval) clearInterval(alarmInterval);
       alarmInterval = null;
       document.getElementById('lockdownBanner').style.display = 'none';
-      alert("Emergency alarms silenced by administrator.");
     }
 
-    // Emergency Control Triggers
+    // Alarm Hierarchy Triggers
     function triggerSiteEvac() {
-      playAlarmSound();
-      alert("SITE EVACUATION PROTOCOL ENGAGED: Sounding alarms in accordance with BS emergency standards. Evacuate immediately.");
+      // Site Evac OVERRIDES Lockdown
+      silenceAlarms();
+      document.getElementById('lockdownBanner').style.display = 'none';
+      playHarshAlarm(true);
+      alert("🚨 SITE EVACUATION PROTOCOL ENGAGED: Evacuate immediately in accordance with British emergency standards. All lockdowns overridden.");
     }
 
     function triggerLockdown() {
-      playAlarmSound();
+      // Only triggers if evac isn't active
+      playHarshAlarm(false);
       document.getElementById('lockdownBanner').style.display = 'block';
     }
 
@@ -553,15 +561,15 @@
       } catch(e) { document.getElementById('cipherOutput').value = "DECRYPTION FAILED: Tampered or invalid token."; }
     }
 
-    // Emergency Wipe (Protocol Omega)
+    // Protocol Omega (Overrides ALL - Wipes everything)
     function triggerEvacuation() {
-      if(alarmInterval) clearInterval(alarmInterval);
+      if (alarmInterval) clearInterval(alarmInterval);
       localStorage.clear();
       sessionStorage.clear();
       document.body.innerHTML = `
-        <div style="display:flex; height:100vh; align-items:center; justify-content:center; flex-direction:column; background:#000; color:#da3633; font-family:monospace;">
-          <h1 style="font-size:24px; margin-bottom:10px;">PROTOCOL OMEGA EXECUTED</h1>
-          <p style="font-size:12px; color:#8b949e;">All volatile memory flushed. Local storage purged. Terminal unresponsive.</p>
+        <div style="display:flex; height:100vh; align-items:center; justify-content:center; flex-direction:column; background:#000; color:#da3633; font-family:monospace; text-align:center; padding:20px;">
+          <h1 style="font-size:28px; margin-bottom:12px; letter-spacing:2px;">PROTOCOL OMEGA EXECUTED — ALL OVERRIDDEN</h1>
+          <p style="font-size:13px; color:#8b949e; max-width:500px; line-height:1.6;">All alarms silenced, volatile memory flushed, and local cryptographic storage purged. Terminal hardware state wiped.</p>
         </div>
       `;
     }
@@ -577,10 +585,10 @@
           { text: 'CONFIDENTIAL // PSIS INTERNAL USE ONLY', alignment: 'center', fontSize: 9, bold: true, color: '#d29922', margin: [0,0,0,15] },
           { text: 'PSIS Integrated — Intelligence Report', fontSize: 20, bold: true, color: '#1f6feb' },
           { text: `REF: ${ref} | TIMESTAMP: ${new Date().toUTCString()}`, fontSize: 9, color: '#57606a', margin: [0, 2, 0, 15] },
-          { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 532, y2: 0, lineWidth: 1.5, lineColor: '#212d42' }] },
+          { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 532, y2: 0, lineWidth: 1.5, lineColor: '#222b3d' }] },
           {
             margin: [0, 15, 0, 15],
-            table: { widths: ['*'], body: [[ { fillColor: '#161d2d', margin: [10, 10, 10, 10], stack: [
+            table: { widths: ['*'], body: [[ { fillColor: '#151a26', margin: [10, 10, 10, 10], stack: [
               { text: `SUBJECT: ${title.toUpperCase()}`, fontSize: 9, bold: true, color: '#ffffff' }
             ]}]] }
           },
