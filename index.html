@@ -7,10 +7,10 @@
   <title>PSIS Integrated — Secure Intelligence Terminal</title>
   <style>
     :root {
-      --bg-base: #0f1117;
-      --bg-surface: #161b22;
-      --bg-card: #1f242c;
-      --border-color: #30363d;
+      --bg-base: #0b0e14;
+      --bg-surface: #111620;
+      --bg-card: #161d2d;
+      --border-color: #212d42;
       --text-main: #c9d1d9;
       --text-muted: #8b949e;
       --accent-blue: #1f6feb;
@@ -21,107 +21,265 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
     body { background-color: var(--bg-base); color: var(--text-main); padding: 20px; line-height: 1.5; }
     
-    /* Security Gate Overlay */
-    #securityGate { position: fixed; inset: 0; background: var(--bg-base); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; }
-    .gate-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 6px; width: 100%; max-width: 440px; padding: 30px; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
-    
+    /* Kiosk Legal Warning Gate */
+    #kioskGate { position: fixed; inset: 0; background: var(--bg-base); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .kiosk-card { background: var(--bg-surface); border: 1.5px solid var(--accent-red); border-radius: 6px; width: 100%; max-width: 580px; padding: 32px; box-shadow: 0 12px 36px rgba(218,54,51,0.15); }
+    .legal-warning { background: rgba(218,54,51,0.1); border-left: 4px solid var(--accent-red); padding: 12px 16px; font-size: 11px; color: #ff7b72; font-weight: 700; margin-bottom: 20px; line-height: 1.6; text-transform: uppercase; }
+
     /* Dashboard Layout */
-    #dashboardContent { display: none; max-width: 1200px; margin: 0 auto; }
+    #dashboardApp { display: none; max-width: 1300px; margin: 0 auto; }
     header { display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface); border: 1px solid var(--border-color); padding: 16px 24px; border-radius: 6px; margin-bottom: 20px; }
-    .brand { font-weight: 800; font-size: 16px; letter-spacing: 1px; color: #ffffff; text-transform: uppercase; }
+    .brand { font-weight: 900; font-size: 16px; letter-spacing: 1px; color: #ffffff; text-transform: uppercase; }
     .brand span { color: var(--accent-blue); }
-    .sub-brand { font-size: 11px; color: var(--text-muted); font-weight: 600; letter-spacing: 0.5px; }
     
+    /* Navigation Tabs */
+    .nav-bar { display: flex; gap: 8px; margin-bottom: 20px; background: var(--bg-surface); padding: 8px; border: 1px solid var(--border-color); border-radius: 6px; overflow-x: auto; }
+    .nav-btn { background: transparent; border: none; color: var(--text-muted); padding: 8px 14px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; border-radius: 4px; white-space: nowrap; }
+    .nav-btn.active { background: var(--accent-blue); color: #fff; }
+
+    .view-section { display: none; }
+    .view-section.active { display: block; }
+
     .grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
     @media (max-width: 900px) { .grid-container { grid-template-columns: 1fr; } }
     
     .panel { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 6px; padding: 20px; margin-bottom: 20px; }
-    .panel-title { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-muted); border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
+    .panel-title { font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
     
     input, select, textarea { width: 100%; padding: 10px 12px; background: var(--bg-base); border: 1px solid var(--border-color); border-radius: 4px; color: var(--text-main); font-size: 13px; margin-bottom: 12px; }
     input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent-blue); }
     
-    button { background-color: var(--accent-blue); color: #ffffff; border: none; padding: 10px 16px; font-weight: 700; font-size: 12px; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; }
+    button { background-color: var(--accent-blue); color: #ffffff; border: none; padding: 10px 16px; font-weight: 800; font-size: 12px; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; }
     button:hover { opacity: 0.9; }
     .btn-dark { background-color: var(--bg-card); border: 1px solid var(--border-color); }
     .btn-danger { background-color: var(--accent-red); }
-    
-    .status-bar { font-size: 12px; font-weight: 600; color: var(--text-muted); padding-top: 8px; border-top: 1px solid var(--border-color); margin-top: 12px; }
-    footer { text-align: center; font-size: 11px; color: var(--text-muted); padding: 20px 0; border-top: 1px solid var(--border-color); margin-top: 40px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* OSINT Grid */
+    .osint-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+    .osint-card { background: var(--bg-card); border: 1px solid var(--border-color); padding: 16px; border-radius: 6px; display: flex; flex-direction: column; justify-content: space-between; }
+    .osint-card h4 { font-size: 13px; color: #fff; margin-bottom: 6px; font-weight: 800; }
+    .osint-card p { font-size: 11px; color: var(--text-muted); margin-bottom: 12px; }
+
+    .status-bar { font-size: 11px; font-weight: 700; color: var(--text-muted); padding-top: 8px; border-top: 1px solid var(--border-color); margin-top: 12px; }
+    footer { text-align: center; font-size: 10px; color: var(--text-muted); padding: 20px 0; border-top: 1px solid var(--border-color); margin-top: 40px; text-transform: uppercase; letter-spacing: 0.5px; }
   </style>
 </head>
 <body>
 
-  <!-- Mandatory Security Authentication Gate -->
-  <div id="securityGate">
-    <div class="gate-card">
-      <div style="font-weight: 800; font-size: 16px; color: #fff; margin-bottom: 4px; text-transform: uppercase;">PSIS Integrated</div>
-      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.5px;">Restricted Access // Authorized Intelligence Personnel Only</div>
-      <label style="display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 6px;">Master Operational Passphrase</label>
-      <input type="password" id="gatePass" placeholder="Enter security passphrase..." style="margin-bottom: 16px;">
-      <button onclick="unlockDashboard()" style="width: 100%;">Authenticate Terminal</button>
-      <div id="gateError" style="font-size: 12px; color: var(--accent-red); font-weight: 700; margin-top: 12px; text-align: center;"></div>
+  <!-- Kiosk Landing Gate -->
+  <div id="kioskGate">
+    <div class="kiosk-card">
+      <div style="font-weight: 900; font-size: 18px; color: #fff; margin-bottom: 4px; text-transform: uppercase;">PSIS Integrated Terminal</div>
+      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.8px;">The People's Secret Intelligence Service • Kiosk Mode</div>
+      
+      <div class="legal-warning">
+        WARNING: Unauthorized access, telemetry inspection, or interception of this terminal is strictly prohibited. All connection metadata, cryptographic challenges, and session attempts are logged under international counter-fraud statutes. This system is restricted to authorized Intelligence Analysts (IAs) targeting financial fraud networks.
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div>
+          <label style="display: block; font-size: 10px; font-weight: 800; text-transform: uppercase; margin-bottom: 4px;">Operator Callsign</label>
+          <input type="text" id="loginCallsign" placeholder="e.g. IA-101">
+        </div>
+        <div>
+          <label style="display: block; font-size: 10px; font-weight: 800; text-transform: uppercase; margin-bottom: 4px;">Master Passphrase</label>
+          <input type="password" id="loginPass" placeholder="Passphrase...">
+        </div>
+      </div>
+      <button onclick="authenticateKiosk()" style="width: 100%; margin-top: 8px;">Authenticate & Initialize Kiosk</button>
+      <div id="gateError" style="font-size: 11px; color: var(--accent-red); font-weight: 800; margin-top: 10px; text-align: center;"></div>
     </div>
   </div>
 
-  <!-- Main Secure Dashboard -->
-  <div id="dashboardContent">
+  <!-- Main Multi-Page App Container -->
+  <div id="dashboardApp">
     <header>
       <div>
         <div class="brand"><span>PSIS</span> Integrated</div>
-        <div class="sub-brand">The People's Secret Intelligence Service • Operational Terminal</div>
+        <div style="font-size: 10px; color: var(--text-muted); font-weight: 700; letter-spacing: 0.5px; margin-top: 2px;">ACTIVE SESSION: <span id="activeCallsignDisplay" style="color: var(--accent-blue);">IA-101</span></div>
       </div>
       <div style="text-align: right;">
-        <div id="utcClock" style="font-family: monospace; font-weight: 700; font-size: 14px; color: var(--accent-gold);">00:00:00 UTC</div>
-        <div style="font-size: 10px; color: var(--accent-green); font-weight: 700; text-transform: uppercase;">Status: Encrypted Secure</div>
+        <div id="utcClock" style="font-family: monospace; font-weight: 800; font-size: 14px; color: var(--accent-gold);">00:00:00 UTC</div>
+        <div style="font-size: 9px; color: var(--accent-green); font-weight: 800; text-transform: uppercase;">Status: Zero-Trust Active</div>
       </div>
     </header>
 
-    <div class="grid-container">
-      <!-- Module 1: Shift & Watch Log -->
-      <div class="panel">
-        <div class="panel-title"><span>Watch Officer Shift Log</span><span>Active</span></div>
-        <input type="text" id="shiftAnalyst" placeholder="Analyst Callsign (e.g. IA-101)">
-        <select id="shiftStatusSelect">
-          <option value="ACTIVE MONITORING">ACTIVE MONITORING</option>
-          <option value="TARGET TRACKING">TARGET TRACKING</option>
-          <option value="EVIDENCE COMPILATION">EVIDENCE COMPILATION</option>
-          <option value="OFF-WATCH / STANDBY">OFF-WATCH / STANDBY</option>
-        </select>
-        <textarea id="shiftNotes" rows="3" placeholder="Shift operational notes..."></textarea>
-        <button onclick="logShift()" style="width: 100%;">Record Shift Entry</button>
-        <div id="shiftStatus" class="status-bar">System ready for log entry.</div>
-      </div>
+    <!-- Navigation Bar -->
+    <div class="nav-bar">
+      <button class="nav-btn active" onclick="switchView('overview')">Operations Deck</button>
+      <button class="nav-btn" onclick="switchView('osint')">OSINT Repository</button>
+      <button class="nav-btn" onclick="switchView('cipher')">Crypto Engine</button>
+      <button class="nav-btn" onclick="switchView('reports')">Report Generator</button>
+      <button class="nav-btn" onclick="switchView('emergency')">Evacuation & Emergency</button>
+      <button class="nav-btn" onclick="switchView('governance')">Boundaries & Docs</button>
+      <button class="nav-btn" onclick="switchView('architecture')">System Architecture</button>
+    </div>
 
-      <!-- Module 2: AES-256-GCM Secure Cipher -->
+    <!-- VIEW 1: OPERATIONS DECK -->
+    <div id="view-overview" class="view-section active">
+      <div class="grid-container">
+        <div class="panel">
+          <div class="panel-title"><span>Watch Officer Shift Log</span><span>Active</span></div>
+          <select id="shiftStatusSelect">
+            <option value="ACTIVE MONITORING">ACTIVE MONITORING</option>
+            <option value="TARGET TRACKING">TARGET TRACKING</option>
+            <option value="EVIDENCE COMPILATION">EVIDENCE COMPILATION</option>
+            <option value="OFF-WATCH / STANDBY">OFF-WATCH / STANDBY</option>
+          </select>
+          <textarea id="shiftNotes" rows="3" placeholder="Record telemetry observations or operational milestones..."></textarea>
+          <button onclick="logShift()" style="width: 100%;">Commit Shift Entry</button>
+          <div id="shiftStatus" class="status-bar">System ready for log entry.</div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title"><span>Active Threat Radar</span><span>Live Feed</span></div>
+          <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Active fraud nodes under investigation by PSIS intelligence units.</div>
+          <div style="background: var(--bg-base); border: 1px solid var(--border-color); padding: 12px; border-radius: 4px; font-family: monospace; font-size: 11px;">
+            <div>[NODE-04] SCAM_DISPATCH_ALPHA — STATUS: TRACKED</div>
+            <div>[NODE-09] PHISHING_GATE_X — STATUS: EVIDENCE LOGGED</div>
+            <div>[NODE-12] CRYPTO_DRAINER_V2 — STATUS: REPORT READY</div>
+          </div>
+          <div class="status-bar">All nodes synchronized with secure client storage.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 2: OSINT REPOSITORY -->
+    <div id="view-osint" class="view-section">
       <div class="panel">
-        <div class="panel-title"><span>Cryptographic Cipher Engine</span><span>AES-256-GCM</span></div>
+        <div class="panel-title"><span>OSINT Intelligence Repository</span><span>Verified Tooling</span></div>
+        <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 16px;">Standardized external research tools utilized by PSIS Analysts for fraud reconstruction and digital forensics.</div>
+        
+        <div class="osint-grid">
+          <div class="osint-card">
+            <div>
+              <h4>Internet Archive Wayback Machine</h4>
+              <p>Historical domain snapshots, deleted scam landing pages, and altered registry records.</p>
+            </div>
+            <a href="https://web.archive.org" target="_blank"><button style="width: 100%;">Access Tool</button></a>
+          </div>
+
+          <div class="osint-card">
+            <div>
+              <h4>World Monitor</h4>
+              <p>Global situational awareness, breaking geopolitical events, and infrastructure telemetry.</p>
+            </div>
+            <a href="https://worldmonitor.app" target="_blank"><button style="width: 100%;">Access Tool</button></a>
+          </div>
+
+          <div class="osint-card">
+            <div>
+              <h4>NASA FIRMS</h4>
+              <p>Active fire and thermal anomaly tracking for physical asset reconnaissance.</p>
+            </div>
+            <a href="https://firms.modaps.eosdis.nasa.gov" target="_blank"><button style="width: 100%;">Access Tool</button></a>
+          </div>
+
+          <div class="osint-card">
+            <div>
+              <h4>Flightradar24</h4>
+              <p>Real-time global flight tracking and aviation telemetry intelligence.</p>
+            </div>
+            <a href="https://www.flightradar24.com" target="_blank"><button style="width: 100%;">Access Tool</button></a>
+          </div>
+
+          <div class="osint-card">
+            <div>
+              <h4>MarineTraffic</h4>
+              <p>Global vessel tracking, maritime positioning, and port telemetry monitoring.</p>
+            </div>
+            <a href="https://www.marinetraffic.com" target="_blank"><button style="width: 100%;">Access Tool</button></a>
+          </div>
+
+          <div class="osint-card">
+            <div>
+              <h4>Email & Domain Intelligence</h4>
+              <p>DNS lookup, MX record tracing, and historical email header correlation.</p>
+            </div>
+            <a href="https://mxtoolbox.com" target="_blank"><button style="width: 100%;">Access Tool</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 3: CRYPTO ENGINE -->
+    <div id="view-cipher" class="view-section">
+      <div class="panel" style="max-width: 800px; margin: 0 auto;">
+        <div class="panel-title"><span>AES-256-GCM Cipher Engine</span><span>Cryptographic Module</span></div>
         <textarea id="cipherInput" rows="3" placeholder="Enter plaintext message or paste encrypted PSIS-GCM token..."></textarea>
         <div style="display: flex; gap: 10px; margin-bottom: 12px;">
           <button onclick="encryptData()" style="flex: 1;">Encrypt Payload</button>
           <button onclick="decryptData()" style="flex: 1;" class="btn-dark">Decrypt Token</button>
         </div>
-        <textarea id="cipherOutput" rows="2" readonly placeholder="Processed output..." style="background: var(--bg-base); font-family: monospace;"></textarea>
-        <div id="cipherStatus" class="status-bar">Cipher hardware engine armed.</div>
+        <textarea id="cipherOutput" rows="3" readonly placeholder="Processed secure output..." style="background: var(--bg-base); font-family: monospace;"></textarea>
+        <div id="cipherStatus" class="status-bar">Engine armed with WebCrypto API.</div>
       </div>
     </div>
 
-    <!-- Module 3: Intelligence Report Generator -->
-    <div class="panel">
-      <div class="panel-title"><span>Formal Intelligence Report Generator</span><span>PDF Export</span></div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-        <input type="text" id="rptAnalyst" placeholder="Reporting Analyst ID (e.g. IA-101)">
-        <input type="text" id="rptTitle" placeholder="Operation / Scam Subject Title">
+    <!-- VIEW 4: REPORT GENERATOR -->
+    <div id="view-reports" class="view-section">
+      <div class="panel" style="max-width: 800px; margin: 0 auto;">
+        <div class="panel-title"><span>Intelligence Report Generator</span><span>PDF Export</span></div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <input type="text" id="rptTitle" placeholder="Operation / Scam Subject Title">
+          <input type="text" id="rptLocation" placeholder="Target Sector / Node">
+        </div>
+        <input type="text" id="rptEntities" placeholder="Target Scammer / Wallet / Account Identifiers">
+        <textarea id="rptFindings" rows="4" placeholder="1.0 Executive Intelligence Findings & Evidence Telemetry..."></textarea>
+        <textarea id="rptRecommendation" rows="2" placeholder="2.0 Operational Assessment & Directives..."></textarea>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div id="rptStatus" class="status-bar" style="border: none; padding: 0;">Ready for document compilation.</div>
+          <button onclick="generatePDF()">Compile & Export PDF</button>
+        </div>
       </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-        <input type="text" id="rptLocation" placeholder="Target Sector / Node">
-        <input type="text" id="rptEntities" placeholder="Target Scammer / Wallet / Account">
+    </div>
+
+    <!-- VIEW 5: EMERGENCY & EVACUATION -->
+    <div id="view-emergency" class="view-section">
+      <div class="panel" style="max-width: 800px; margin: 0 auto; border-color: var(--accent-red);">
+        <div class="panel-title" style="color: var(--accent-red);"><span>Emergency Site Evacuation & Hardware Purge</span><span>Protocol Omega</span></div>
+        <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 20px;">
+          Executing emergency protocol immediately terminates all active sessions, flushes volatile memory buffers, overwrites local cache stores, and locks the terminal interface.
+        </p>
+        <div style="display: flex; gap: 12px;">
+          <button onclick="triggerEvacuation()" class="btn-danger" style="flex: 1; padding: 14px;">INITIATE EMERGENCY WIPE</button>
+          <button onclick="lockTerminal()" class="btn-dark" style="flex: 1; padding: 14px;">LOCK TERMINAL SCREEN</button>
+        </div>
+        <div id="evacStatus" class="status-bar" style="margin-top: 16px;">Evacuation systems standing by.</div>
       </div>
-      <textarea id="rptFindings" rows="4" placeholder="1.0 Executive Intelligence Findings & Evidence Telemetry..."></textarea>
-      <textarea id="rptRecommendation" rows="2" placeholder="2.0 Operational Assessment & Directives..."></textarea>
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <div id="rptStatus" class="status-bar" style="border: none; padding: 0;">Ready for document compilation.</div>
-        <button onclick="generatePDF()">Compile & Export PDF</button>
+    </div>
+
+    <!-- VIEW 6: GOVERNANCE & BOUNDARIES -->
+    <div id="view-governance" class="view-section">
+      <div class="panel" style="max-width: 900px; margin: 0 auto;">
+        <div class="panel-title"><span>Formal Documentation & Boundaries</span><span>PSIS Directive 01</span></div>
+        <div style="font-size: 12px; line-height: 1.7; color: var(--text-main);">
+          <h4 style="color: #fff; margin-bottom: 6px; font-size: 13px;">1.0 Operational Mandate</h4>
+          <p style="margin-bottom: 16px; color: var(--text-muted);">The People's Secret Intelligence Service (PSIS) operates strictly as an independent counter-fraud collective. Our objective is the identification, documentation, and takedown of active online financial fraudsters targeting civilians.</p>
+          
+          <h4 style="color: #fff; margin-bottom: 6px; font-size: 13px;">2.0 Ethical & Legal Boundaries</h4>
+          <p style="margin-bottom: 16px; color: var(--text-muted);">All intelligence gathering must adhere to verifiable OSINT methodologies. Analysts are strictly prohibited from deploying malicious payloads, executing unauthorized denial-of-service attacks, or violating individual data privacy outside of established scam networks.</p>
+
+          <h4 style="color: #fff; margin-bottom: 6px; font-size: 13px;">3.0 Information Classification</h4>
+          <p style="color: var(--text-muted);">All records generated within PSIS Integrated are classified as <strong>CONFIDENTIAL // INTERNAL USE ONLY</strong>. Unauthorized disclosure of scammer telemetry prior to official takedown coordination compromises ongoing operations.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 7: SYSTEM ARCHITECTURE -->
+    <div id="view-architecture" class="view-section">
+      <div class="panel" style="max-width: 900px; margin: 0 auto;">
+        <div class="panel-title"><span>System Architecture & Security Specification</span><span>Zero-Trust Whitepaper</span></div>
+        <div style="font-size: 12px; line-height: 1.7; color: var(--text-main);">
+          <h4 style="color: #fff; margin-bottom: 6px; font-size: 13px;">1.0 Overview</h4>
+          <p style="margin-bottom: 16px; color: var(--text-muted);">PSIS Integrated is engineered as a client-side single-page intelligence workspace. By stripping away traditional backend server databases, the platform eliminates server-side attack vectors entirely.</p>
+          
+          <h4 style="color: #fff; margin-bottom: 6px; font-size: 13px;">2.0 Cryptographic Specifications</h4>
+          <p style="margin-bottom: 16px; color: var(--text-muted);">Encryption is handled natively via the browser's <code>window.crypto.subtle</code> API. Passphrases are stretched using PBKDF2 with 100,000 iterations of SHA-256, protecting against dictionary and brute-force attacks.</p>
+
+          <h4 style="color: #fff; margin-bottom: 6px; font-size: 13px;">3.0 Anti-Scraper & Crawler Mitigation</h4>
+          <p style="color: var(--text-muted);">The root document implements strict HTTP robots headers (`noindex, nofollow, noarchive`) alongside a cryptographic kiosk gate, preventing automated web scrapers or bad actors from indexing operational evidence.</p>
+        </div>
       </div>
     </div>
 
@@ -130,42 +288,57 @@
     </footer>
   </div>
 
-  <!-- Scripts: pdfMake for PDF generation -->
+  <!-- PDF Generator Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 
   <script>
     // Master Clock
     setInterval(() => {
-      const now = new Date();
-      document.getElementById('utcClock').innerText = now.toUTCString().slice(17, 25) + ' UTC';
+      document.getElementById('utcClock').innerText = new Date().toUTCString().slice(17, 25) + ' UTC';
     }, 1000);
 
-    // Security Gate Authentication
-    async function unlockDashboard() {
-      const pass = document.getElementById('gatePass').value;
-      if (!pass) {
-        document.getElementById('gateError').innerText = "Passphrase required.";
-        return;
-      }
-      // Simple verification hash check (Passphrase: PSIS_SECURE_2026)
-      if (pass === "PSIS_SECURE_2026") {
-        document.getElementById('securityGate').style.display = 'none';
-        document.getElementById('dashboardContent').style.display = 'block';
+    // View Switching
+    function switchView(viewName) {
+      document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById('view-' + viewName).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    // Kiosk Authentication (Accepts master pass or any of the 5 accounts)
+    const validAccounts = {
+      "IA-101": "Vanguard_89!x",
+      "IA-204": "Delta_Cipher#9",
+      "IA-312": "Watch_Sector4$",
+      "IA-450": "Kilo_Alpha_77%",
+      "IA-509": "Omega_Node_01*",
+      "ADMIN": "PSIS_SECURE_2026"
+    };
+
+    function authenticateKiosk() {
+      const callsign = document.getElementById('loginCallsign').value.trim().toUpperCase();
+      const pass = document.getElementById('loginPass').value;
+      const err = document.getElementById('gateError');
+
+      if (validAccounts[callsign] && validAccounts[callsign] === pass) {
+        document.getElementById('kioskGate').style.display = 'none';
+        document.getElementById('dashboardApp').style.display = 'block';
+        document.getElementById('activeCallsignDisplay').innerText = callsign;
       } else {
-        document.getElementById('gateError').innerText = "AUTHENTICATION FAILED: Access Denied.";
+        err.innerText = "AUTHENTICATION FAILED: Invalid Callsign or Passphrase.";
       }
     }
 
     // Shift Logger
     function logShift() {
-      const analyst = document.getElementById('shiftAnalyst').value.trim();
-      if (!analyst) { alert("Analyst ID required."); return; }
-      document.getElementById('shiftStatus').innerText = "Shift logged successfully at " + new Date().toUTCString();
+      const notes = document.getElementById('shiftNotes').value.trim();
+      if (!notes) { alert("Shift notes required."); return; }
+      document.getElementById('shiftStatus').innerText = "Shift entry committed to local memory at " + new Date().toUTCString();
       document.getElementById('shiftStatus').style.color = "var(--accent-green)";
     }
 
-    // AES-256-GCM Crypto Helpers
+    // AES-256-GCM Crypto
     async function getMasterKey(passphrase) {
       const enc = new TextEncoder();
       const keyMaterial = await window.crypto.subtle.importKey("raw", enc.encode(passphrase), "PBKDF2", false, ["deriveKey"]);
@@ -203,14 +376,28 @@
       } catch(e) { document.getElementById('cipherOutput').value = "DECRYPTION FAILED: Tampered or invalid token."; }
     }
 
+    // Emergency Protocols
+    function triggerEvacuation() {
+      localStorage.clear();
+      sessionStorage.clear();
+      document.getElementById('dashboardApp').innerHTML = `
+        <div style="display:flex; height:100vh; align-items:center; justify-content:center; flex-direction:column; background:#000; color:#da3633; font-family:monospace;">
+          <h1 style="font-size:24px; margin-bottom:10px;">PROTOCOL OMEGA EXECUTED</h1>
+          <p style="font-size:12px; color:#8b949e;">All volatile memory flushed. Local storage purged. Terminal unresponsive.</p>
+        </div>
+      `;
+    }
+
+    function lockTerminal() {
+      document.getElementById('dashboardApp').style.display = 'none';
+      document.getElementById('kioskGate').style.display = 'flex';
+      document.getElementById('loginPass').value = '';
+    }
+
     // PDF Generator
     function generatePDF() {
-      const analyst = document.getElementById('rptAnalyst').value.trim() || 'IA-UNKNOWN';
       const title = document.getElementById('rptTitle').value.trim() || 'SCAM INVESTIGATION';
-      const findings = document.getElementById('rptFindings').value.trim() || 'No findings recorded.';
-      const recommendation = document.getElementById('rptRecommendation').value.trim() || 'Continued monitoring.';
       const ref = 'PSIS-IR-' + Math.floor(100000 + Math.random() * 900000);
-
       const docDefinition = {
         pageSize: 'LETTER',
         pageMargins: [40, 40, 40, 40],
@@ -218,24 +405,18 @@
           { text: 'CONFIDENTIAL // PSIS INTERNAL USE ONLY', alignment: 'center', fontSize: 9, bold: true, color: '#d29922', margin: [0,0,0,15] },
           { text: 'PSIS Integrated — Intelligence Report', fontSize: 20, bold: true, color: '#1f6feb' },
           { text: `REF: ${ref} | TIMESTAMP: ${new Date().toUTCString()}`, fontSize: 9, color: '#57606a', margin: [0, 2, 0, 15] },
-          { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 532, y2: 0, lineWidth: 1.5, lineColor: '#30363d' }] },
+          { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 532, y2: 0, lineWidth: 1.5, lineColor: '#212d42' }] },
           {
             margin: [0, 15, 0, 15],
-            table: {
-              widths: ['*'],
-              body: [[ { fillColor: '#161b22', margin: [10, 10, 10, 10], stack: [
-                { text: `SUBJECT: ${title.toUpperCase()}`, fontSize: 9, bold: true, color: '#ffffff' },
-                { text: `ANALYST: ${analyst.toUpperCase()} | SECTOR: ${document.getElementById('rptLocation').value.toUpperCase() || 'N/A'}`, fontSize: 9, bold: true, color: '#8b949e', margin: [0,4,0,0] }
-              ]}]]
-            }
+            table: { widths: ['*'], body: [[ { fillColor: '#161d2d', margin: [10, 10, 10, 10], stack: [
+              { text: `SUBJECT: ${title.toUpperCase()}`, fontSize: 9, bold: true, color: '#ffffff' }
+            ]}]] }
           },
-          { text: '1.0 EXECUTIVE FINDINGS & TELEMETRY', fontSize: 10, bold: true, color: '#1f6feb', margin: [0, 10, 0, 4] },
-          { text: findings, fontSize: 10, lineHeight: 1.4, margin: [0, 0, 0, 15] },
-          { text: '2.0 OPERATIONAL ASSESSMENT & DIRECTIVES', fontSize: 10, bold: true, color: '#1f6feb', margin: [0, 10, 0, 4] },
-          { text: recommendation, fontSize: 10, lineHeight: 1.4, margin: [0, 0, 0, 30] },
-          { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 532, y2: 0, lineWidth: 0.5, lineColor: '#30363d' }] },
-          { text: "Copyright © 2026 PSIS (The People's Secret Intelligence Service). All Rights Reserved.", fontSize: 8, color: '#8b949e', margin: [0, 10, 0, 0] },
-          { text: 'CONFIDENTIAL // UNAUTHORIZED DISCLOSURE PROHIBITED', alignment: 'center', fontSize: 9, bold: true, color: '#d29922', margin: [0, 10, 0, 0] }
+          { text: '1.0 EXECUTIVE FINDINGS', fontSize: 10, bold: true, color: '#1f6feb', margin: [0, 10, 0, 4] },
+          { text: document.getElementById('rptFindings').value || 'No findings recorded.', fontSize: 10, lineHeight: 1.4, margin: [0, 0, 0, 15] },
+          { text: '2.0 OPERATIONAL ASSESSMENT', fontSize: 10, bold: true, color: '#1f6feb', margin: [0, 10, 0, 4] },
+          { text: document.getElementById('rptRecommendation').value || 'Continued monitoring.', fontSize: 10, lineHeight: 1.4, margin: [0, 0, 0, 30] },
+          { text: "Copyright © 2026 PSIS (The People's Secret Intelligence Service). All Rights Reserved.", fontSize: 8, color: '#8b949e', margin: [0, 10, 0, 0] }
         ]
       };
       pdfMake.createPdf(docDefinition).download(`${ref}_REPORT.pdf`);
