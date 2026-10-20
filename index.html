@@ -21,17 +21,27 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
     body { background-color: var(--bg-base); color: var(--text-main); padding: 20px; line-height: 1.5; }
     
-    /* Kiosk Legal Warning Gate */
-    #kioskGate { position: fixed; inset: 0; background: var(--bg-base); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; }
-    .kiosk-card { background: var(--bg-surface); border: 1.5px solid var(--accent-red); border-radius: 6px; width: 100%; max-width: 580px; padding: 32px; box-shadow: 0 12px 36px rgba(218,54,51,0.15); }
-    .legal-warning { background: rgba(218,54,51,0.1); border-left: 4px solid var(--accent-red); padding: 12px 16px; font-size: 11px; color: #ff7b72; font-weight: 700; margin-bottom: 20px; line-height: 1.6; text-transform: uppercase; }
+    /* Pre-Login Warning Gate Stages */
+    .gate-overlay { position: fixed; inset: 0; background: var(--bg-base); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .gate-card { background: var(--bg-surface); border: 1.5px solid var(--border-color); border-radius: 6px; width: 100%; max-width: 600px; padding: 32px; box-shadow: 0 12px 36px rgba(0,0,0,0.5); }
+    .bs-warning-box { background: rgba(210,153,34,0.1); border-left: 4px solid var(--accent-gold); padding: 14px 18px; font-size: 11px; color: #f0883e; font-weight: 700; margin-bottom: 20px; line-height: 1.6; text-transform: uppercase; }
+
+    /* Security Hold Screen (Close Screen) */
+    #securityHoldScreen { position: fixed; inset: 0; background: #ffffff; color: #1f2328; z-index: 9998; display: none; align-items: center; justify-content: center; padding: 40px; font-family: Helvetica, Arial, sans-serif; }
+    .hold-content { max-width: 600px; border: 3px solid #1f2328; padding: 40px; text-align: center; }
+
+    /* Lockdown Overlay Banner */
+    #lockdownBanner { position: fixed; top: 0; left: 0; right: 0; background: var(--accent-red); color: #fff; text-align: center; padding: 8px; font-weight: 900; font-size: 12px; letter-spacing: 2px; z-index: 9990; display: none; text-transform: uppercase; }
 
     /* Dashboard Layout */
-    #dashboardApp { display: none; max-width: 1300px; margin: 0 auto; }
+    #dashboardApp { display: none; max-width: 1300px; margin: 0 auto; transition: opacity 0.3s ease; }
     header { display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface); border: 1px solid var(--border-color); padding: 16px 24px; border-radius: 6px; margin-bottom: 20px; }
     .brand { font-weight: 900; font-size: 16px; letter-spacing: 1px; color: #ffffff; text-transform: uppercase; }
     .brand span { color: var(--accent-blue); }
     
+    /* Emergency Control Ribbon */
+    .emergency-ribbon { display: flex; gap: 10px; margin-bottom: 15px; background: rgba(218,54,51,0.08); border: 1px solid rgba(218,54,51,0.3); padding: 10px; border-radius: 6px; align-items: center; justify-content: space-between; }
+
     /* Navigation Tabs */
     .nav-bar { display: flex; gap: 8px; margin-bottom: 20px; background: var(--bg-surface); padding: 8px; border: 1px solid var(--border-color); border-radius: 6px; overflow-x: auto; }
     .nav-btn { background: transparent; border: none; color: var(--text-muted); padding: 8px 14px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; border-radius: 4px; white-space: nowrap; }
@@ -52,9 +62,8 @@
     button { background-color: var(--accent-blue); color: #ffffff; border: none; padding: 10px 16px; font-weight: 800; font-size: 12px; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; }
     button:hover { opacity: 0.9; }
     .btn-dark { background-color: var(--bg-card); border: 1px solid var(--border-color); }
-    .btn-danger { background-color: var(--accent-red); }
+    .btn-danger { background-color: var(--accent-red); color: #fff; }
 
-    /* OSINT Grid */
     .osint-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
     .osint-card { background: var(--bg-card); border: 1px solid var(--border-color); padding: 16px; border-radius: 6px; display: flex; flex-direction: column; justify-content: space-between; }
     .osint-card h4 { font-size: 13px; color: #fff; margin-bottom: 6px; font-weight: 800; }
@@ -66,32 +75,99 @@
 </head>
 <body>
 
-  <!-- Kiosk Landing Gate -->
-  <div id="kioskGate">
-    <div class="kiosk-card">
-      <div style="font-weight: 900; font-size: 18px; color: #fff; margin-bottom: 4px; text-transform: uppercase;">PSIS Integrated Terminal</div>
-      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.8px;">The People's Secret Intelligence Service • Kiosk Mode</div>
+  <!-- ACTIVE LOCKDOWN BANNER -->
+  <div id="lockdownBanner">CRITICAL ALERT: FACILITY UNDER ACTIVE LOCKDOWN — PROTOCOL SECURE ENGAGED</div>
+
+  <!-- SECURITY HOLD SCREEN (CLOSE SCREEN) -->
+  <div id="securityHoldScreen">
+    <div class="hold-content">
+      <div style="font-size: 12px; font-weight: 900; letter-spacing: 3px; color: #d29922; margin-bottom: 10px;">CONFIDENTIAL</div>
+      <div style="font-size: 32px; font-weight: 900; letter-spacing: 4px; color: #1f2328; margin-bottom: 20px;">S E C U R I T Y&nbsp;&nbsp;&nbsp;&nbsp;H O L D</div>
+      <p style="font-size: 13px; color: #57606a; line-height: 1.6; margin-bottom: 30px;">
+        This terminal interface has been secured under immediate supervisory protocol. Unattended active workstations are locked to prevent unauthorized disclosure of counter-fraud operations and confidential scam intelligence.
+      </p>
+      <button onclick="liftSecurityHold()" style="background: #1f2328; color: #fff; padding: 12px 24px;">RESTORE TERMINAL SESSION</button>
+    </div>
+  </div>
+
+  <!-- WARNING STAGE 1: Public Overview & Purpose -->
+  <div id="warningStage1" class="gate-overlay">
+    <div class="gate-card">
+      <div style="font-weight: 900; font-size: 16px; color: #fff; margin-bottom: 4px; text-transform: uppercase;">PSIS Integrated // Public Directive</div>
+      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 16px; text-transform: uppercase;">The People's Secret Intelligence Service</div>
       
-      <div class="legal-warning">
-        WARNING: Unauthorized access, telemetry inspection, or interception of this terminal is strictly prohibited. All connection metadata, cryptographic challenges, and session attempts are logged under international counter-fraud statutes. This system is restricted to authorized Intelligence Analysts (IAs) targeting financial fraud networks.
+      <div class="bs-warning-box">
+        Notice: PSIS is an independent civilian counter-fraud intelligence collective. We investigate, track, and document active online financial scammers to protect the public. This portal contains restricted intelligence.
       </div>
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+      <p style="font-size: 12px; color: var(--text-main); margin-bottom: 20px; line-height: 1.6;">
+        You are attempting to access a specialized intelligence coordination platform. Operating outside established legal boundaries or attempting to disrupt active scam takedowns is strictly monitored.
+      </p>
+
+      <button onclick="advanceWarning(2)" style="width: 100%;">Proceed to Legal Compliance Notice (1 of 3)</button>
+    </div>
+  </div>
+
+  <!-- WARNING STAGE 2: Legal Boundaries & Compliance -->
+  <div id="warningStage2" class="gate-overlay" style="display: none;">
+    <div class="gate-card">
+      <div style="font-weight: 900; font-size: 16px; color: #fff; margin-bottom: 4px; text-transform: uppercase;">Regulatory & Legal Compliance</div>
+      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 16px; text-transform: uppercase;">BS / ISO Safety & Security Standards</div>
+      
+      <div class="bs-warning-box" style="border-left-color: var(--accent-red); color: #ff7b72;">
+        Legal Warning: Unauthorized interception, data harvesting, or automated scraping of intelligence logs violates anti-fraud protection statutes. All access attempts are cryptographically timestamped.
+      </div>
+
+      <p style="font-size: 12px; color: var(--text-main); margin-bottom: 20px; line-height: 1.6;">
+        In accordance with operational security standards, all evidence gathered is processed exclusively for formal reporting to relevant authorities and victim support networks.
+      </p>
+
+      <div style="display: flex; gap: 10px;">
+        <button onclick="advanceWarning(1)" class="btn-dark" style="flex: 1;">Back</button>
+        <button onclick="advanceWarning(3)" style="flex: 1;">Acknowledge & Continue (2 of 3)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- WARNING STAGE 3: Final Security Acknowledgment -->
+  <div id="warningStage3" class="gate-overlay" style="display: none;">
+    <div class="gate-card">
+      <div style="font-weight: 900; font-size: 16px; color: #fff; margin-bottom: 4px; text-transform: uppercase;">Terminal Access Authorization</div>
+      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 16px; text-transform: uppercase;">Restricted Operator Gateway</div>
+      
+      <div class="bs-warning-box">
+        Final Warning: You are about to enter the restricted operator terminal. Valid Intelligence Analyst credentials or Administrative passphrases are required.
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <button onclick="advanceWarning(2)" class="btn-dark" style="flex: 1;">Back</button>
+        <button onclick="showLoginGate()" style="flex: 1;">Proceed to Operator Login</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPERATOR LOGIN GATE -->
+  <div id="kioskGate" class="gate-overlay" style="display: none;">
+    <div class="kiosk-card">
+      <div style="font-weight: 900; font-size: 18px; color: #fff; margin-bottom: 4px; text-transform: uppercase;">PSIS Terminal Authentication</div>
+      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 16px; text-transform: uppercase;">Enter Assigned Callsign & Passphrase</div>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
         <div>
-          <label style="display: block; font-size: 10px; font-weight: 800; text-transform: uppercase; margin-bottom: 4px;">Operator Callsign</label>
+          <label style="display: block; font-size: 10px; font-weight: 800; text-transform: uppercase; margin-bottom: 4px;">Callsign / Admin ID</label>
           <input type="text" id="loginCallsign" placeholder="e.g. IA-101">
         </div>
         <div>
-          <label style="display: block; font-size: 10px; font-weight: 800; text-transform: uppercase; margin-bottom: 4px;">Master Passphrase</label>
+          <label style="display: block; font-size: 10px; font-weight: 800; text-transform: uppercase; margin-bottom: 4px;">Passphrase</label>
           <input type="password" id="loginPass" placeholder="Passphrase...">
         </div>
       </div>
-      <button onclick="authenticateKiosk()" style="width: 100%; margin-top: 8px;">Authenticate & Initialize Kiosk</button>
+      <button onclick="authenticateKiosk()" style="width: 100%;">Initialize Terminal Session</button>
       <div id="gateError" style="font-size: 11px; color: var(--accent-red); font-weight: 800; margin-top: 10px; text-align: center;"></div>
     </div>
   </div>
 
-  <!-- Main Multi-Page App Container -->
+  <!-- MAIN DASHBOARD APPLICATION -->
   <div id="dashboardApp">
     <header>
       <div>
@@ -100,9 +176,21 @@
       </div>
       <div style="text-align: right;">
         <div id="utcClock" style="font-family: monospace; font-weight: 800; font-size: 14px; color: var(--accent-gold);">00:00:00 UTC</div>
-        <div style="font-size: 9px; color: var(--accent-green); font-weight: 800; text-transform: uppercase;">Status: Zero-Trust Active</div>
+        <div style="font-size: 9px; color: var(--accent-green); font-weight: 800; text-transform: uppercase;">Status: BS-Compliant Secure</div>
       </div>
     </header>
+
+    <!-- Strategic Emergency Control Ribbon -->
+    <div class="emergency-ribbon">
+      <div style="font-size: 11px; font-weight: 800; color: #ff7b72; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px;">
+        <span>⚠️ EMERGENCY CONTROL PROTOCOLS</span>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <button onclick="triggerSiteEvac()" class="btn-danger" style="padding: 6px 12px; font-size: 10px;">SITE EVACUATION</button>
+        <button onclick="triggerLockdown()" class="btn-dark" style="background: #302000; border-color: var(--accent-gold); color: var(--accent-gold); padding: 6px 12px; font-size: 10px;">FACILITY LOCKDOWN</button>
+        <button onclick="triggerCloseScreen()" class="btn-dark" style="padding: 6px 12px; font-size: 10px;">CLOSE SCREEN (HOLD)</button>
+      </div>
+    </div>
 
     <!-- Navigation Bar -->
     <div class="nav-bar">
@@ -110,7 +198,7 @@
       <button class="nav-btn" onclick="switchView('osint')">OSINT Repository</button>
       <button class="nav-btn" onclick="switchView('cipher')">Crypto Engine</button>
       <button class="nav-btn" onclick="switchView('reports')">Report Generator</button>
-      <button class="nav-btn" onclick="switchView('emergency')">Evacuation & Emergency</button>
+      <button class="nav-btn" onclick="switchView('syscontrols')">System Controls (Admin)</button>
       <button class="nav-btn" onclick="switchView('governance')">Boundaries & Docs</button>
       <button class="nav-btn" onclick="switchView('architecture')">System Architecture</button>
     </div>
@@ -234,18 +322,28 @@
       </div>
     </div>
 
-    <!-- VIEW 5: EMERGENCY & EVACUATION -->
-    <div id="view-emergency" class="view-section">
-      <div class="panel" style="max-width: 800px; margin: 0 auto; border-color: var(--accent-red);">
-        <div class="panel-title" style="color: var(--accent-red);"><span>Emergency Site Evacuation & Hardware Purge</span><span>Protocol Omega</span></div>
-        <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 20px;">
-          Executing emergency protocol immediately terminates all active sessions, flushes volatile memory buffers, overwrites local cache stores, and locks the terminal interface.
-        </p>
-        <div style="display: flex; gap: 12px;">
-          <button onclick="triggerEvacuation()" class="btn-danger" style="flex: 1; padding: 14px;">INITIATE EMERGENCY WIPE</button>
-          <button onclick="lockTerminal()" class="btn-dark" style="flex: 1; padding: 14px;">LOCK TERMINAL SCREEN</button>
+    <!-- VIEW 5: SYSTEM CONTROLS (ADMIN) -->
+    <div id="view-syscontrols" class="view-section">
+      <div class="panel" style="max-width: 700px; margin: 0 auto;">
+        <div class="panel-title"><span>System Administrator Controls</span><span>Restricted Access</span></div>
+        
+        <div id="adminAuthBox">
+          <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Enter System Administrator passphrase to unlock alarm reset and emergency override controls.</p>
+          <input type="password" id="adminPassInput" placeholder="Admin Passphrase...">
+          <button onclick="verifyAdminPass()" style="width: 100%;">Authenticate Admin Mode</button>
+          <div id="adminAuthError" style="font-size: 11px; color: var(--accent-red); font-weight: 800; margin-top: 8px;"></div>
         </div>
-        <div id="evacStatus" class="status-bar" style="margin-top: 16px;">Evacuation systems standing by.</div>
+
+        <div id="adminPanelControls" style="display: none;">
+          <div style="background: rgba(35,134,54,0.1); border: 1px solid var(--accent-green); padding: 10px; border-radius: 4px; font-size: 11px; color: #3fb950; font-weight: 700; margin-bottom: 16px;">
+            ADMINISTRATOR SESSION ACTIVE: Full override capabilities enabled.
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <button onclick="silenceAlarms()" class="btn-dark" style="padding: 12px;">SILENCE ACTIVE EMERGENCY ALARMS</button>
+            <button onclick="clearLockdown()" class="btn-dark" style="padding: 12px;">DISENGAGE FACILITY LOCKDOWN</button>
+            <button onclick="triggerEvacuation()" class="btn-danger" style="padding: 12px;">EXECUTE TERMINAL WIPE (PROTOCOL OMEGA)</button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -298,6 +396,85 @@
       document.getElementById('utcClock').innerText = new Date().toUTCString().slice(17, 25) + ' UTC';
     }, 1000);
 
+    // Warning Gate Progression
+    function advanceWarning(stageNum) {
+      document.getElementById('warningStage1').style.display = 'none';
+      document.getElementById('warningStage2').style.display = 'none';
+      document.getElementById('warningStage3').style.display = 'none';
+      document.getElementById('warningStage' + stageNum).style.display = 'flex';
+    }
+
+    function showLoginGate() {
+      document.getElementById('warningStage3').style.display = 'none';
+      document.getElementById('kioskGate').style.display = 'flex';
+    }
+
+    // Audio Alarm Synthesizer (Web Audio API - BS 5839 Cadence)
+    let audioCtx = null;
+    let alarmInterval = null;
+
+    function playAlarmSound() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (alarmInterval) clearInterval(alarmInterval);
+
+      alarmInterval = setInterval(() => {
+        if (!audioCtx) return;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(880, audioCtx.currentTime); // High pitch alarm tone
+        osc.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 0.4);
+        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.4);
+      }, 600);
+    }
+
+    function silenceAlarms() {
+      if (alarmInterval) clearInterval(alarmInterval);
+      alarmInterval = null;
+      document.getElementById('lockdownBanner').style.display = 'none';
+      alert("Emergency alarms silenced by administrator.");
+    }
+
+    // Emergency Control Triggers
+    function triggerSiteEvac() {
+      playAlarmSound();
+      alert("SITE EVACUATION PROTOCOL ENGAGED: Sounding alarms in accordance with BS emergency standards. Evacuate immediately.");
+    }
+
+    function triggerLockdown() {
+      playAlarmSound();
+      document.getElementById('lockdownBanner').style.display = 'block';
+    }
+
+    function clearLockdown() {
+      silenceAlarms();
+      document.getElementById('lockdownBanner').style.display = 'none';
+    }
+
+    function triggerCloseScreen() {
+      document.getElementById('securityHoldScreen').style.display = 'flex';
+    }
+
+    function liftSecurityHold() {
+      document.getElementById('securityHoldScreen').style.display = 'none';
+    }
+
+    // Admin Verification
+    function verifyAdminPass() {
+      const pass = document.getElementById('adminPassInput').value;
+      if (pass === "PSIS-ADMIN-2026-X9!k") {
+        document.getElementById('adminAuthBox').style.display = 'none';
+        document.getElementById('adminPanelControls').style.display = 'block';
+      } else {
+        document.getElementById('adminAuthError').innerText = "ACCESS DENIED: Invalid Administrator Passphrase.";
+      }
+    }
+
     // View Switching
     function switchView(viewName) {
       document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
@@ -306,7 +483,7 @@
       event.target.classList.add('active');
     }
 
-    // Kiosk Authentication (Accepts master pass or any of the 5 accounts)
+    // Kiosk Authentication
     const validAccounts = {
       "IA-101": "Vanguard_89!x",
       "IA-204": "Delta_Cipher#9",
@@ -376,22 +553,17 @@
       } catch(e) { document.getElementById('cipherOutput').value = "DECRYPTION FAILED: Tampered or invalid token."; }
     }
 
-    // Emergency Protocols
+    // Emergency Wipe (Protocol Omega)
     function triggerEvacuation() {
+      if(alarmInterval) clearInterval(alarmInterval);
       localStorage.clear();
       sessionStorage.clear();
-      document.getElementById('dashboardApp').innerHTML = `
+      document.body.innerHTML = `
         <div style="display:flex; height:100vh; align-items:center; justify-content:center; flex-direction:column; background:#000; color:#da3633; font-family:monospace;">
           <h1 style="font-size:24px; margin-bottom:10px;">PROTOCOL OMEGA EXECUTED</h1>
           <p style="font-size:12px; color:#8b949e;">All volatile memory flushed. Local storage purged. Terminal unresponsive.</p>
         </div>
       `;
-    }
-
-    function lockTerminal() {
-      document.getElementById('dashboardApp').style.display = 'none';
-      document.getElementById('kioskGate').style.display = 'flex';
-      document.getElementById('loginPass').value = '';
     }
 
     // PDF Generator
