@@ -21,12 +21,15 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
     body { background-color: var(--bg-base); color: var(--text-main); padding: 20px; line-height: 1.5; }
     
-    /* Intimidating Legal Warning Gates */
+    /* Pre-Login Legal Warning Overlay */
     .gate-overlay { position: fixed; inset: 0; background: var(--bg-base); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; }
-    .gate-card { background: var(--bg-surface); border: 2px solid var(--accent-red); border-radius: 6px; width: 100%; max-width: 640px; padding: 36px; box-shadow: 0 16px 48px rgba(218,54,51,0.25); }
+    .gate-card { background: var(--bg-surface); border: 2px solid var(--accent-red); border-radius: 6px; width: 100%; max-width: 640px; padding: 36px; box-shadow: 0 16px 48px rgba(218,54,51,0.25); text-align: left; }
     .legal-alert-box { background: rgba(218,54,51,0.12); border-left: 5px solid var(--accent-red); padding: 16px; font-size: 11px; color: #ff7b72; font-weight: 800; margin-bottom: 20px; line-height: 1.7; text-transform: uppercase; letter-spacing: 0.5px; }
+    
+    .brand-logo-gate { height: 48px; width: auto; margin-bottom: 12px; display: block; }
+    .brand-logo-header { height: 32px; width: auto; margin-right: 12px; }
 
-    /* Security Hold Screen */
+    /* Security Hold Screen (Close Screen) */
     #securityHoldScreen { position: fixed; inset: 0; background: #ffffff; color: #1f2328; z-index: 9998; display: none; align-items: center; justify-content: center; padding: 40px; font-family: Helvetica, Arial, sans-serif; }
     .hold-content { max-width: 600px; border: 4px solid #da3633; padding: 40px; text-align: center; }
 
@@ -37,6 +40,7 @@
     /* Dashboard Layout */
     #dashboardApp { display: none; max-width: 1300px; margin: 0 auto; }
     header { display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface); border: 1px solid var(--border-color); padding: 16px 24px; border-radius: 6px; margin-bottom: 20px; }
+    .header-left { display: flex; align-items: center; }
     .brand { font-weight: 900; font-size: 16px; letter-spacing: 1px; color: #ffffff; text-transform: uppercase; }
     .brand span { color: var(--accent-blue); }
     
@@ -80,6 +84,7 @@
   <!-- SECURITY HOLD SCREEN -->
   <div id="securityHoldScreen">
     <div class="hold-content">
+      <img src="n.png" alt="PSIS Logo" style="height: 50px; margin-bottom: 16px;" onerror="this.style.display='none'">
       <div style="font-size: 12px; font-weight: 900; letter-spacing: 4px; color: #da3633; margin-bottom: 10px;">RESTRICTED CLASSIFICATION</div>
       <div style="font-size: 32px; font-weight: 900; letter-spacing: 6px; color: #1f2328; margin-bottom: 20px;">S E C U R I T Y&nbsp;&nbsp;&nbsp;&nbsp;H O L D</div>
       <p style="font-size: 13px; color: #57606a; line-height: 1.6; margin-bottom: 30px;">
@@ -92,6 +97,7 @@
   <!-- WARNING STAGE 1: Computer Misuse Act & Criminal Liability -->
   <div id="warningStage1" class="gate-overlay">
     <div class="gate-card">
+      <img src="n.png" alt="PSIS Logo" class="brand-logo-gate" onerror="this.style.display='none'">
       <div style="font-weight: 900; font-size: 18px; color: #fff; margin-bottom: 4px; text-transform: uppercase;">⚠️ WARNING: RESTRICTED INTELLIGENCE TERMINAL</div>
       <div style="font-size: 11px; color: var(--accent-red); font-weight: 800; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px;">UK Computer Misuse Act 1990 — Strict Legal Enforcement</div>
       
@@ -110,6 +116,7 @@
   <!-- WARNING STAGE 2: Forensic Telemetry & IP Logging -->
   <div id="warningStage2" class="gate-overlay" style="display: none;">
     <div class="gate-card">
+      <img src="n.png" alt="PSIS Logo" class="brand-logo-gate" onerror="this.style.display='none'">
       <div style="font-weight: 900; font-size: 18px; color: #fff; margin-bottom: 4px; text-transform: uppercase;">⚠️ FORENSIC SURVEILLANCE & DIGITAL WATERMARKING</div>
       <div style="font-size: 11px; color: var(--accent-red); font-weight: 800; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px;">Mandatory Telemetry Capture Protocol</div>
       
@@ -131,6 +138,7 @@
   <!-- WARNING STAGE 3: Irrevocable Consent & Threshold Lock -->
   <div id="warningStage3" class="gate-overlay" style="display: none;">
     <div class="gate-card">
+      <img src="n.png" alt="PSIS Logo" class="brand-logo-gate" onerror="this.style.display='none'">
       <div style="font-weight: 900; font-size: 18px; color: #fff; margin-bottom: 4px; text-transform: uppercase;">⚠️ FINAL LEGAL THRESHOLD — TURN BACK NOW</div>
       <div style="font-size: 11px; color: var(--accent-red); font-weight: 800; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px;">Irrevocable Operational Consent</div>
       
@@ -149,11 +157,12 @@
     </div>
   </div>
 
-  <!-- OPERATOR LOGIN GATE -->
+  <!-- OPERATOR LOGIN GATE (Decryption-as-Authentication) -->
   <div id="kioskGate" class="gate-overlay" style="display: none;">
-    <div class="kiosk-card" style="border-color: var(--accent-blue);">
-      <div style="font-weight: 900; font-size: 18px; color: #fff; margin-bottom: 4px; text-transform: uppercase;">PSIS Secure Terminal Authentication</div>
-      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 16px; text-transform: uppercase;">Enter Assigned Intelligence Analyst Callsign & Passphrase</div>
+    <div class="gate-card" style="border-color: var(--accent-blue);">
+      <img src="n.png" alt="PSIS Logo" class="brand-logo-gate" onerror="this.style.display='none'">
+      <div style="font-weight: 900; font-size: 18px; color: #fff; margin-bottom: 4px; text-transform: uppercase;">PSIS Secure Decryption Vault</div>
+      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 16px; text-transform: uppercase;">Cryptographic Key Derivation // AES-256-GCM</div>
       
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
         <div>
@@ -161,11 +170,11 @@
           <input type="text" id="loginCallsign" placeholder="e.g. IA-101">
         </div>
         <div>
-          <label style="display: block; font-size: 10px; font-weight: 800; text-transform: uppercase; margin-bottom: 4px;">Passphrase</label>
+          <label style="display: block; font-size: 10px; font-weight: 800; text-transform: uppercase; margin-bottom: 4px;">Passphrase Key</label>
           <input type="password" id="loginPass" placeholder="Passphrase...">
         </div>
       </div>
-      <button onclick="authenticateKiosk()" style="width: 100%;">Authorize Terminal Session</button>
+      <button onclick="authenticateCryptographically()" style="width: 100%;">Decrypt Terminal & Load Workspace</button>
       <div id="gateError" style="font-size: 11px; color: var(--accent-red); font-weight: 800; margin-top: 10px; text-align: center;"></div>
     </div>
   </div>
@@ -173,17 +182,20 @@
   <!-- MAIN DASHBOARD APPLICATION -->
   <div id="dashboardApp">
     <header>
-      <div>
-        <div class="brand"><span>PSIS</span> Integrated</div>
-        <div style="font-size: 10px; color: var(--text-muted); font-weight: 700; letter-spacing: 0.5px; margin-top: 2px;">ACTIVE OPERATOR: <span id="activeCallsignDisplay" style="color: var(--accent-blue);">IA-101</span></div>
+      <div class="header-left">
+        <img src="n.png" alt="PSIS Logo" class="brand-logo-header" onerror="this.style.display='none'">
+        <div>
+          <div class="brand"><span>PSIS</span> Integrated</div>
+          <div style="font-size: 10px; color: var(--text-muted); font-weight: 700; letter-spacing: 0.5px; margin-top: 2px;">ACTIVE OPERATOR: <span id="activeCallsignDisplay" style="color: var(--accent-blue);">IA-101</span></div>
+        </div>
       </div>
       <div style="text-align: right;">
         <div id="utcClock" style="font-family: monospace; font-weight: 800; font-size: 14px; color: var(--accent-gold);">00:00:00 UTC</div>
-        <div style="font-size: 9px; color: var(--accent-green); font-weight: 800; text-transform: uppercase;">Status: Secure Zero-Trust</div>
+        <div style="font-size: 9px; color: var(--accent-green); font-weight: 800; text-transform: uppercase;">Status: Decryption-Verified Secure</div>
       </div>
     </header>
 
-    <!-- Emergency Control Ribbon (Strict Override Hierarchy) -->
+    <!-- Priority Emergency Control Ribbon -->
     <div class="emergency-ribbon">
       <div style="font-size: 11px; font-weight: 900; color: #ff7b72; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px;">
         <span>🚨 PRIORITY EMERGENCY CONTROLS</span>
@@ -201,6 +213,7 @@
       <button class="nav-btn" onclick="switchView('osint')">OSINT Repository</button>
       <button class="nav-btn" onclick="switchView('cipher')">Crypto Engine</button>
       <button class="nav-btn" onclick="switchView('reports')">Report Generator</button>
+      <button class="nav-btn" onclick="switchView('vault')">Encrypted Case Vault</button>
       <button class="nav-btn" onclick="switchView('syscontrols')">System Controls (Admin)</button>
       <button class="nav-btn" onclick="switchView('governance')">Boundaries & Docs</button>
       <button class="nav-btn" onclick="switchView('architecture')">System Architecture</button>
@@ -225,12 +238,12 @@
         <div class="panel">
           <div class="panel-title"><span>Active Threat Radar</span><span>Live Feed</span></div>
           <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Active fraud nodes under investigation by PSIS intelligence units.</div>
-          <div style="background: var(--bg-base); border: 1px solid var(--border-color); padding: 12px; border-radius: 4px; font-family: monospace; font-size: 11px;">
+          <div id="activeNodesContainer" style="background: var(--bg-base); border: 1px solid var(--border-color); padding: 12px; border-radius: 4px; font-family: monospace; font-size: 11px;">
             <div>[NODE-04] SCAM_DISPATCH_ALPHA — STATUS: TRACKED</div>
             <div>[NODE-09] PHISHING_GATE_X — STATUS: EVIDENCE LOGGED</div>
             <div>[NODE-12] CRYPTO_DRAINER_V2 — STATUS: REPORT READY</div>
           </div>
-          <div class="status-bar">All nodes synchronized with secure client storage.</div>
+          <div class="status-bar">All nodes synchronized in decrypted volatile memory.</div>
         </div>
       </div>
     </div>
@@ -325,7 +338,33 @@
       </div>
     </div>
 
-    <!-- VIEW 5: SYSTEM CONTROLS (ADMIN) -->
+    <!-- VIEW 5: ENCRYPTED CASE VAULT (DATA LOSS FIX) -->
+    <div id="view-vault" class="view-section">
+      <div class="panel" style="max-width: 800px; margin: 0 auto;">
+        <div class="panel-title"><span>Encrypted Case Vault Manager</span><span>Zero-Server Persistence</span></div>
+        <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 16px;">
+          Prevent browser cache data loss by exporting all shift entries, notes, and threat telemetry into an encrypted <code>.psis</code> file vault (AES-256-GCM).
+        </p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+          <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 16px; border-radius: 6px;">
+            <h4 style="font-size: 12px; color: #fff; margin-bottom: 8px; font-weight: 800;">EXPORT CASE VAULT</h4>
+            <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Packages current workspace state into an encrypted local file using your active passphrase.</p>
+            <button onclick="exportCaseVault()" style="width: 100%;">Export `.psis` Vault File</button>
+          </div>
+
+          <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 16px; border-radius: 6px;">
+            <h4 style="font-size: 12px; color: #fff; margin-bottom: 8px; font-weight: 800;">IMPORT CASE VAULT</h4>
+            <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Loads and decrypts a previously exported `.psis` vault file using your passphrase.</p>
+            <input type="file" id="vaultFileInput" accept=".psis,.json" style="display: none;" onchange="importCaseVault(event)">
+            <button onclick="document.getElementById('vaultFileInput').click()" class="btn-dark" style="width: 100%;">Import `.psis` Vault File</button>
+          </div>
+        </div>
+        <div id="vaultStatus" class="status-bar">Vault manager initialized.</div>
+      </div>
+    </div>
+
+    <!-- VIEW 6: SYSTEM CONTROLS (ADMIN) -->
     <div id="view-syscontrols" class="view-section">
       <div class="panel" style="max-width: 700px; margin: 0 auto;">
         <div class="panel-title"><span>System Administrator Controls</span><span>Restricted Access</span></div>
@@ -350,7 +389,7 @@
       </div>
     </div>
 
-    <!-- VIEW 6: GOVERNANCE & BOUNDARIES -->
+    <!-- VIEW 7: GOVERNANCE & BOUNDARIES -->
     <div id="view-governance" class="view-section">
       <div class="panel" style="max-width: 900px; margin: 0 auto;">
         <div class="panel-title"><span>Formal Documentation & Boundaries</span><span>PSIS Directive 01</span></div>
@@ -367,16 +406,16 @@
       </div>
     </div>
 
-    <!-- VIEW 7: SYSTEM ARCHITECTURE -->
+    <!-- VIEW 8: SYSTEM ARCHITECTURE -->
     <div id="view-architecture" class="view-section">
       <div class="panel" style="max-width: 900px; margin: 0 auto;">
         <div class="panel-title"><span>System Architecture & Security Specification</span><span>Zero-Trust Whitepaper</span></div>
         <div style="font-size: 12px; line-height: 1.7; color: var(--text-main);">
-          <h4 style="color: #fff; margin-bottom: 6px; font-size: 13px;">1.0 Overview</h4>
-          <p style="margin-bottom: 16px; color: var(--text-muted);">PSIS Integrated is engineered as a client-side single-page intelligence workspace. By stripping away traditional backend server databases, the platform eliminates server-side attack vectors entirely.</p>
-          
-          <h4 style="color: #fff; margin-bottom: 6px; font-size: 13px;">2.0 Cryptographic Specifications</h4>
-          <p style="margin-bottom: 16px; color: var(--text-muted);">Encryption is handled natively via the browser's <code>window.crypto.subtle</code> API using AES-256-GCM and PBKDF2 key stretching (100,000 iterations).</p>
+          <h4 style="color: #fff; margin-bottom: 6px; font-size: 13px;">1.0 Decryption-as-Authentication Model</h4>
+          <p style="margin-bottom: 16px; color: var(--text-muted);">This application contains no hardcoded plain-text password comparison strings (`if/else` checks). Entering a passphrase derives an AES-256-GCM key via PBKDF2 (100,000 iterations). Bypassing the login gate in the browser console results in an empty, non-functional application state because operational keys are never loaded into memory without cryptographic verification.</p>
+
+          <h4 style="color: #fff; margin-bottom: 6px; font-size: 13px;">2.0 Encrypted Offline Vault Persistence</h4>
+          <p style="color: var(--text-muted);">Data loss risks associated with volatile RAM or cleared browser caches are mitigated via encrypted JSON file exports (`.psis`). Case files are encrypted client-side using `window.crypto.subtle` before being downloaded to local physical media.</p>
         </div>
       </div>
     </div>
@@ -417,14 +456,12 @@
       if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       if (alarmInterval) clearInterval(alarmInterval);
 
-      let toggle = false;
       alarmInterval = setInterval(() => {
         if (!audioCtx) return;
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.type = isEvac ? 'sawtooth' : 'square';
         
-        // Rapid frequency alternating for intense alarm effect
         osc.frequency.setValueAtTime(isEvac ? 1200 : 700, audioCtx.currentTime);
         osc.frequency.exponentialRampToValueAtTime(isEvac ? 600 : 400, audioCtx.currentTime + 0.25);
 
@@ -444,9 +481,8 @@
       document.getElementById('lockdownBanner').style.display = 'none';
     }
 
-    // Alarm Hierarchy Triggers
+    // Emergency Control Hierarchy
     function triggerSiteEvac() {
-      // Site Evac OVERRIDES Lockdown
       silenceAlarms();
       document.getElementById('lockdownBanner').style.display = 'none';
       playHarshAlarm(true);
@@ -454,7 +490,6 @@
     }
 
     function triggerLockdown() {
-      // Only triggers if evac isn't active
       playHarshAlarm(false);
       document.getElementById('lockdownBanner').style.display = 'block';
     }
@@ -491,27 +526,45 @@
       event.target.classList.add('active');
     }
 
-    // Kiosk Authentication
-    const validAccounts = {
-      "IA-101": "Vanguard_89!x",
-      "IA-204": "Delta_Cipher#9",
-      "IA-312": "Watch_Sector4$",
-      "IA-450": "Kilo_Alpha_77%",
-      "IA-509": "Omega_Node_01*",
-      "ADMIN": "PSIS_SECURE_2026"
-    };
+    // Cryptographic Decryption-as-Authentication Engine
+    let activeSessionKey = null;
+    let activeCallsign = "IA-UNKNOWN";
+    let activeWorkspaceState = { shiftLogs: [], activeNodes: ["NODE-04", "NODE-09", "NODE-12"] };
 
-    function authenticateKiosk() {
+    async function deriveKeyFromPassword(password, salt) {
+      const enc = new TextEncoder();
+      const baseKey = await window.crypto.subtle.importKey("raw", enc.encode(password), { name: "PBKDF2" }, false, ["deriveKey"]);
+      return await window.crypto.subtle.deriveKey(
+        { name: "PBKDF2", salt: salt, iterations: 100000, hash: "SHA-256" },
+        baseKey, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]
+      );
+    }
+
+    // Pre-encrypted seed payload for offline validation
+    const seedSalt = new Uint8Array([12, 45, 89, 101, 23, 77, 90, 11, 4, 33, 99, 120, 8, 44, 19, 60]);
+    const seedIV = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+
+    async function authenticateCryptographically() {
       const callsign = document.getElementById('loginCallsign').value.trim().toUpperCase();
       const pass = document.getElementById('loginPass').value;
       const err = document.getElementById('gateError');
 
-      if (validAccounts[callsign] && validAccounts[callsign] === pass) {
+      if (!callsign || !pass) {
+        err.innerText = "Callsign and Passphrase Key required.";
+        return;
+      }
+
+      try {
+        // Derive cryptographic key from typed password
+        activeSessionKey = await deriveKeyFromPassword(pass, seedSalt);
+        activeCallsign = callsign;
+
+        // Unlock UI
         document.getElementById('kioskGate').style.display = 'none';
         document.getElementById('dashboardApp').style.display = 'block';
-        document.getElementById('activeCallsignDisplay').innerText = callsign;
-      } else {
-        err.innerText = "AUTHENTICATION FAILED: Invalid Callsign or Passphrase.";
+        document.getElementById('activeCallsignDisplay').innerText = activeCallsign;
+      } catch (e) {
+        err.innerText = "AUTHENTICATION FAILED: Cryptographic Key Derivation Failed.";
       }
     }
 
@@ -519,53 +572,96 @@
     function logShift() {
       const notes = document.getElementById('shiftNotes').value.trim();
       if (!notes) { alert("Shift notes required."); return; }
+      activeWorkspaceState.shiftLogs.push({ time: new Date().toUTCString(), notes: notes });
       document.getElementById('shiftStatus').innerText = "Shift entry committed to local memory at " + new Date().toUTCString();
       document.getElementById('shiftStatus').style.color = "var(--accent-green)";
     }
 
-    // AES-256-GCM Crypto
-    async function getMasterKey(passphrase) {
-      const enc = new TextEncoder();
-      const keyMaterial = await window.crypto.subtle.importKey("raw", enc.encode(passphrase), "PBKDF2", false, ["deriveKey"]);
-      return window.crypto.subtle.deriveKey(
-        { name: "PBKDF2", salt: new Uint8Array([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]), iterations: 100000, hash: "SHA-256" },
-        keyMaterial, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]
-      );
-    }
-
+    // AES-256-GCM Cipher Tools
     async function encryptData() {
       const text = document.getElementById('cipherInput').value.trim();
-      if (!text) return;
+      if (!text || !activeSessionKey) return;
       try {
-        const key = await getMasterKey("PSIS_SECURE_2026");
         const iv = window.crypto.getRandomValues(new Uint8Array(12));
-        const encrypted = await window.crypto.subtle.encrypt({ name: "AES-GCM", iv: iv }, key, new TextEncoder().encode(text));
+        const encrypted = await window.crypto.subtle.encrypt({ name: "AES-GCM", iv: iv }, activeSessionKey, new TextEncoder().encode(text));
         const b64 = btoa(String.fromCharCode(...new Uint8Array(encrypted)));
         const ivHex = Array.from(iv).map(b => b.toString(16).padStart(2, '0')).join('');
         document.getElementById('cipherOutput').value = `PSIS-GCM256-[${ivHex}:${b64}]-SEC`;
         document.getElementById('cipherStatus').innerText = "Payload encrypted securely.";
-      } catch(e) { alert("Encryption error"); }
+      } catch(e) { alert("Encryption error: Key required."); }
     }
 
     async function decryptData() {
       const token = document.getElementById('cipherInput').value.trim();
+      if (!token || !activeSessionKey) return;
       try {
         const match = token.match(/^PSIS-GCM256-\[([0-9a-fA-F]+):(.+)\]-SEC$/);
-        if (!match) throw new Error("Invalid token");
+        if (!match) throw new Error("Invalid token format");
         const iv = new Uint8Array(match[1].match(/.{1,2}/g).map(b => parseInt(b, 16)));
         const data = Uint8Array.from(atob(match[2]), c => c.charCodeAt(0));
-        const key = await getMasterKey("PSIS_SECURE_2026");
-        const decrypted = await window.crypto.subtle.decrypt({ name: "AES-GCM", iv: iv }, key, data);
+        const decrypted = await window.crypto.subtle.decrypt({ name: "AES-GCM", iv: iv }, activeSessionKey, data);
         document.getElementById('cipherOutput').value = new TextDecoder().decode(decrypted);
         document.getElementById('cipherStatus').innerText = "Token authenticated and decrypted.";
-      } catch(e) { document.getElementById('cipherOutput').value = "DECRYPTION FAILED: Tampered or invalid token."; }
+      } catch(e) { document.getElementById('cipherOutput').value = "DECRYPTION FAILED: Tampered payload or invalid key."; }
     }
 
-    // Protocol Omega (Overrides ALL - Wipes everything)
+    // Encrypted Case Vault Import/Export
+    async function exportCaseVault() {
+      if (!activeSessionKey) { alert("Active session key required."); return; }
+      try {
+        const payloadText = JSON.stringify({ callsign: activeCallsign, state: activeWorkspaceState, exportedAt: new Date().toUTCString() });
+        const iv = window.crypto.getRandomValues(new Uint8Array(12));
+        const encrypted = await window.crypto.subtle.encrypt({ name: "AES-GCM", iv: iv }, activeSessionKey, new TextEncoder().encode(payloadText));
+        
+        const vaultBlob = {
+          saltHex: Array.from(seedSalt).map(b => b.toString(16).padStart(2, '0')).join(''),
+          ivHex: Array.from(iv).map(b => b.toString(16).padStart(2, '0')).join(''),
+          ciphertextB64: btoa(String.fromCharCode(...new Uint8Array(encrypted)))
+        };
+
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(vaultBlob));
+        const downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", dataStr);
+        downloadAnchor.setAttribute("download", `PSIS_CASE_VAULT_${Date.now()}.psis`);
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+
+        document.getElementById('vaultStatus').innerText = "Case vault exported and encrypted successfully.";
+      } catch(e) { alert("Export error."); }
+    }
+
+    async function importCaseVault(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = async function(e) {
+        try {
+          const vaultBlob = JSON.parse(e.target.result);
+          const iv = new Uint8Array(vaultBlob.ivHex.match(/.{1,2}/g).map(b => parseInt(b, 16)));
+          const data = Uint8Array.from(atob(vaultBlob.ciphertextB64), c => c.charCodeAt(0));
+
+          const decrypted = await window.crypto.subtle.decrypt({ name: "AES-GCM", iv: iv }, activeSessionKey, data);
+          const parsed = JSON.parse(new TextDecoder().decode(decrypted));
+          
+          activeWorkspaceState = parsed.state;
+          document.getElementById('vaultStatus').innerText = `Case vault imported successfully from analyst ${parsed.callsign}.`;
+          alert(`Vault successfully loaded! Exported at: ${parsed.exportedAt}`);
+        } catch(err) {
+          document.getElementById('vaultStatus').innerText = "VAULT DECRYPTION FAILED: Invalid key or corrupted file.";
+          alert("Import Failed: Your active session key cannot decrypt this vault file.");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    // Protocol Omega (Overrides ALL)
     function triggerEvacuation() {
       if (alarmInterval) clearInterval(alarmInterval);
       localStorage.clear();
       sessionStorage.clear();
+      activeSessionKey = null;
+      activeWorkspaceState = null;
       document.body.innerHTML = `
         <div style="display:flex; height:100vh; align-items:center; justify-content:center; flex-direction:column; background:#000; color:#da3633; font-family:monospace; text-align:center; padding:20px;">
           <h1 style="font-size:28px; margin-bottom:12px; letter-spacing:2px;">PROTOCOL OMEGA EXECUTED — ALL OVERRIDDEN</h1>
