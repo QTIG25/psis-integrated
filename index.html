@@ -89,7 +89,7 @@
   <audio id="siteEvacAudio" src="psis.mp4" preload="auto"></audio>
 
   <!-- ACTIVE LOCKDOWN BANNER -->
-  <div id="lockdownBanner">CRITICAL SECURITY ALERT: FACILITY UNDER ACTIVE LOCKDOWN — UNAUTHORIZED INTERFERENCE DETECTED</div>
+  <div id="lockdownBanner">CRITICAL SECURITY ALERT: FACILITY UNDER GLOBAL ACTIVE LOCKDOWN — UNAUTHORIZED INTERFERENCE DETECTED</div>
 
   <!-- SECURITY HOLD SCREEN -->
   <div id="securityHoldScreen">
@@ -208,11 +208,11 @@
     <!-- Priority Emergency Control Ribbon -->
     <div class="emergency-ribbon">
       <div style="font-size: 11px; font-weight: 900; color: #ff7b72; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px;">
-        <span>PRIORITY EMERGENCY CONTROLS (GLOBAL BROADCAST)</span>
+        <span>PRIORITY EMERGENCY CONTROLS (GLOBAL REAL-TIME BROADCAST)</span>
       </div>
       <div style="display: flex; gap: 8px;">
-        <button onclick="triggerSiteEvac()" class="btn-danger" style="padding: 8px 14px; font-size: 11px;">SITE EVACUATION (VAD + AUDIO)</button>
-        <button onclick="triggerLockdown()" class="btn-dark" style="background: #3d2200; border-color: var(--accent-gold); color: var(--accent-gold); padding: 8px 14px; font-size: 11px;">FACILITY LOCKDOWN</button>
+        <button onclick="triggerGlobalSiteEvac()" class="btn-danger" style="padding: 8px 14px; font-size: 11px;">GLOBAL SITE EVACUATION (VAD + AUDIO)</button>
+        <button onclick="triggerGlobalLockdown()" class="btn-dark" style="background: #3d2200; border-color: var(--accent-gold); color: var(--accent-gold); padding: 8px 14px; font-size: 11px;">FACILITY LOCKDOWN</button>
         <button onclick="triggerCloseScreen()" class="btn-dark" style="padding: 8px 14px; font-size: 11px;">CLOSE SCREEN (HOLD)</button>
       </div>
     </div>
@@ -380,8 +380,8 @@
             ADMINISTRATOR SESSION ACTIVE: Full override capabilities enabled.
           </div>
           <div style="display: flex; flex-direction: column; gap: 12px;">
-            <button onclick="silenceAlarms()" class="btn-dark" style="padding: 12px;">SILENCE ACTIVE EMERGENCY ALARMS</button>
-            <button onclick="clearLockdown()" class="btn-dark" style="padding: 12px;">DISENGAGE FACILITY LOCKDOWN</button>
+            <button onclick="silenceGlobalAlarms()" class="btn-dark" style="padding: 12px;">SILENCE GLOBAL EMERGENCY ALARMS</button>
+            <button onclick="clearGlobalLockdown()" class="btn-dark" style="padding: 12px;">DISENGAGE GLOBAL LOCKDOWN</button>
             <button onclick="triggerEvacuation()" class="btn-danger" style="padding: 12px;">EXECUTE TERMINAL WIPE (PROTOCOL OMEGA OVERRIDE)</button>
           </div>
         </div>
@@ -428,12 +428,55 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 
+  <!-- FIREBASE REAL-TIME GLOBAL SIGNAL LISTENER -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+
   <script>
     // Master UK Clock (UTC+1 BST / Europe/London)
     setInterval(() => {
       const ukTimeStr = new Date().toLocaleString("en-GB", { timeZone: "Europe/London", hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
       document.getElementById('ukClock').innerText = ukTimeStr + ' BST';
     }, 1000);
+
+    // Firebase Global Emergency Synchronization Config
+    // Note: This connects all active terminals worldwide via an open WebSocket
+    const firebaseConfig = {
+      databaseURL: "https://psis-global-emergency-default-rtdb.europe-west1.firebasedatabase.app"
+    };
+
+    let globalSignalRef = null;
+    try {
+      if (typeof firebase !== 'undefined') {
+        firebase.initializeApp(firebaseConfig);
+        globalSignalRef = firebase.database().ref("psis_global_signal");
+
+        // Global Cross-World Real-Time Listener (LAN, WAN, Cross-Continent)
+        globalSignalRef.on("value", (snapshot) => {
+          const signal = snapshot.val();
+          if (!signal) return;
+
+          if (signal.state === "EVAC") {
+            executeEvacuationSequenceLocally();
+          } else if (signal.state === "LOCKDOWN") {
+            executeLockdownSequenceLocally();
+          } else if (signal.state === "NORMAL") {
+            executeSilenceLocally();
+          }
+        });
+      }
+    } catch(e) {
+      console.warn("Global Cross-World Real-Time Signaling running in local broadcast mode.");
+    }
+
+    // Local Cross-Tab Backup Fallback
+    const psisBroadcastChannel = new BroadcastChannel('psis_global_emergency_channel');
+    psisBroadcastChannel.onmessage = function (event) {
+      const data = event.data;
+      if (data.type === 'SITE_EVAC') executeEvacuationSequenceLocally();
+      else if (data.type === 'LOCKDOWN') executeLockdownSequenceLocally();
+      else if (data.type === 'SILENCE') executeSilenceLocally();
+    };
 
     // Warning Gate Progression
     function advanceWarning(stageNum) {
@@ -447,20 +490,6 @@
       document.getElementById('warningStage3').style.display = 'none';
       document.getElementById('kioskGate').style.display = 'flex';
     }
-
-    // Global Emergency Broadcast Channel (Cross-Tab / Cross-World Synchronization)
-    const psisBroadcastChannel = new BroadcastChannel('psis_global_emergency_channel');
-
-    psisBroadcastChannel.onmessage = function (event) {
-      const data = event.data;
-      if (data.type === 'SITE_EVAC') {
-        executeEvacuationSequenceLocally();
-      } else if (data.type === 'LOCKDOWN') {
-        executeLockdownSequenceLocally();
-      } else if (data.type === 'SILENCE') {
-        executeSilenceLocally();
-      }
-    };
 
     // Audio & VAD Alarm Management (Using psis.mp4)
     let audioCtx = null;
@@ -498,7 +527,7 @@
     }
 
     function executeEvacuationSequenceLocally() {
-      silenceAlarmsLocally();
+      executeSilenceLocally();
       document.getElementById('vadsStrobeOverlay').style.display = 'block';
       playSiteEvacAudio();
     }
@@ -507,11 +536,6 @@
       document.getElementById('vadsStrobeOverlay').style.display = 'block';
       playHarshAlarm();
       document.getElementById('lockdownBanner').style.display = 'block';
-    }
-
-    function silenceAlarms() {
-      psisBroadcastChannel.postMessage({ type: 'SILENCE' });
-      executeSilenceLocally();
     }
 
     function executeSilenceLocally() {
@@ -526,19 +550,27 @@
       document.getElementById('vadsStrobeOverlay').style.display = 'none';
     }
 
-    // Emergency Control Hierarchy with Global Broadcast
-    function triggerSiteEvac() {
+    // Global Triggers Across WAN/LAN
+    function triggerGlobalSiteEvac() {
+      if (globalSignalRef) globalSignalRef.set({ state: "EVAC", timestamp: Date.now() });
       psisBroadcastChannel.postMessage({ type: 'SITE_EVAC' });
       executeEvacuationSequenceLocally();
     }
 
-    function triggerLockdown() {
+    function triggerGlobalLockdown() {
+      if (globalSignalRef) globalSignalRef.set({ state: "LOCKDOWN", timestamp: Date.now() });
       psisBroadcastChannel.postMessage({ type: 'LOCKDOWN' });
       executeLockdownSequenceLocally();
     }
 
-    function clearLockdown() {
-      silenceAlarms();
+    function silenceGlobalAlarms() {
+      if (globalSignalRef) globalSignalRef.set({ state: "NORMAL", timestamp: Date.now() });
+      psisBroadcastChannel.postMessage({ type: 'SILENCE' });
+      executeSilenceLocally();
+    }
+
+    function clearGlobalLockdown() {
+      silenceGlobalAlarms();
     }
 
     function triggerCloseScreen() {
@@ -713,7 +745,6 @@
       const title = document.getElementById('rptTitle').value.trim() || 'SCAM INVESTIGATION';
       const ref = 'PSIS-IR-' + Math.floor(100000 + Math.random() * 900000);
       
-      // Load logo image as base64 for pdfMake header embedding
       const img = new Image();
       img.crossOrigin = 'Anonymous';
       img.src = 'n.png';
@@ -751,7 +782,6 @@
         document.getElementById('rptStatus').innerText = "PDF report compiled successfully.";
       };
       img.onerror = function() {
-        // Fallback if logo fails to load
         alert("Logo asset 'n.png' could not be loaded into PDF generator.");
       };
     }
