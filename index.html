@@ -21,24 +21,24 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
     body { background-color: var(--bg-base); color: var(--text-main); padding: 20px; line-height: 1.5; }
     
-    /* Pre-Login Legal Warning Overlay */
+    /* Professional Corporate Legal Warning Overlay */
     .gate-overlay { position: fixed; inset: 0; background: var(--bg-base); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px; }
-    .gate-card { background: var(--bg-surface); border: 2.5px solid var(--accent-red); border-radius: 6px; width: 100%; max-width: 850px; padding: 44px; box-shadow: 0 20px 60px rgba(218,54,51,0.35); text-align: left; }
-    .legal-alert-box { background: rgba(218,54,51,0.15); border-left: 6px solid var(--accent-red); padding: 20px; font-size: 13px; color: #ff7b72; font-weight: 800; margin-bottom: 24px; line-height: 1.8; text-transform: uppercase; letter-spacing: 0.8px; }
+    .gate-card { background: var(--bg-surface); border: 1.5px solid var(--border-color); border-radius: 6px; width: 100%; max-width: 850px; padding: 44px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); text-align: left; }
+    .legal-alert-box { background: rgba(31,111,235,0.08); border-left: 4px solid var(--accent-blue); padding: 20px; font-size: 13px; color: var(--text-main); font-weight: 600; margin-bottom: 24px; line-height: 1.7; letter-spacing: 0.3px; }
     
-    .brand-logo-gate { height: 75px; width: auto; margin-bottom: 20px; display: block; }
+    .brand-logo-gate { height: 65px; width: auto; margin-bottom: 20px; display: block; }
     .brand-logo-header { height: 36px; width: auto; margin-right: 12px; }
 
     /* Security Hold Screen (Close Screen) */
     #securityHoldScreen { position: fixed; inset: 0; background: #ffffff; color: #1f2328; z-index: 9998; display: none; align-items: center; justify-content: center; padding: 40px; font-family: Helvetica, Arial, sans-serif; }
-    .hold-content { max-width: 650px; border: 5px solid #da3633; padding: 44px; text-align: center; }
+    .hold-content { max-width: 650px; border: 3px solid var(--accent-blue); padding: 44px; text-align: center; }
 
     /* BS EN 54-23 Visual Alarm Devices (VADs) Strobe Overlay */
     #vadsStrobeOverlay { position: fixed; inset: 0; pointer-events: none; z-index: 9995; display: none; border: 8px solid var(--accent-red); animation: vadStrobeFlash 0.5s infinite alternate; }
-    @keyframes vadStrobeFlash { 0% { background: rgba(218,54,51,0.35); } 100% { background: rgba(255,255,255,0.15); } }
+    @keyframes vadStrobeFlash { 0% { background: rgba(218,54,51,0.25); } 100% { background: rgba(255,255,255,0.05); } }
 
-    /* Lockdown Banner */
-    #lockdownBanner { position: fixed; top: 0; left: 0; right: 0; background: var(--accent-red); color: #fff; text-align: center; padding: 12px; font-weight: 900; font-size: 14px; letter-spacing: 3px; z-index: 9990; display: none; text-transform: uppercase; animation: pulseBanner 1s infinite alternate; }
+    /* Global Persistent Lockdown Banner */
+    #lockdownBanner { position: fixed; top: 0; left: 0; right: 0; background: var(--accent-red); color: #fff; text-align: center; padding: 12px; font-weight: 900; font-size: 13px; letter-spacing: 2px; z-index: 9990; display: none; text-transform: uppercase; animation: pulseBanner 1s infinite alternate; }
     @keyframes pulseBanner { from { background: #da3633; } to { background: #9e2a2b; } }
 
     /* Dashboard Layout */
@@ -48,7 +48,7 @@
     .brand { font-weight: 900; font-size: 16px; letter-spacing: 1px; color: #ffffff; text-transform: uppercase; }
     .brand span { color: var(--accent-blue); }
     
-    .emergency-ribbon { display: flex; gap: 10px; margin-bottom: 15px; background: rgba(218,54,51,0.12); border: 1.5px solid var(--accent-red); padding: 12px; border-radius: 6px; align-items: center; justify-content: space-between; }
+    .emergency-ribbon { display: flex; gap: 10px; margin-bottom: 15px; background: rgba(218,54,51,0.08); border: 1px solid var(--border-color); padding: 12px; border-radius: 6px; align-items: center; justify-content: space-between; }
 
     .nav-bar { display: flex; gap: 8px; margin-bottom: 20px; background: var(--bg-surface); padding: 8px; border: 1px solid var(--border-color); border-radius: 6px; overflow-x: auto; }
     .nav-btn { background: transparent; border: none; color: var(--text-muted); padding: 8px 14px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; border-radius: 4px; white-space: nowrap; }
@@ -88,90 +88,90 @@
   <!-- HIDDEN AUDIO SYSTEM FOR SITE EVACUATION -->
   <audio id="siteEvacAudio" src="psis.mp4" preload="auto"></audio>
 
-  <!-- ACTIVE LOCKDOWN BANNER -->
-  <div id="lockdownBanner">CRITICAL SECURITY ALERT: FACILITY UNDER GLOBAL ACTIVE LOCKDOWN — UNAUTHORIZED INTERFERENCE DETECTED</div>
+  <!-- ACTIVE PERSISTENT LOCKDOWN BANNER -->
+  <div id="lockdownBanner">SYSTEM ALERT: GLOBAL FACILITY LOCKDOWN ACTIVE — PERSISTENT ENFORCEMENT ENGAGED</div>
 
   <!-- SECURITY HOLD SCREEN -->
   <div id="securityHoldScreen">
     <div class="hold-content">
-      <img src="n.png" alt="PSIS Logo" style="height: 65px; margin-bottom: 20px;" onerror="this.style.display='none'">
-      <div style="font-size: 13px; font-weight: 900; letter-spacing: 4px; color: #da3633; margin-bottom: 10px;">RESTRICTED CLASSIFICATION // OFFICIAL SENSITIVE</div>
-      <div style="font-size: 36px; font-weight: 900; letter-spacing: 6px; color: #1f2328; margin-bottom: 20px;">S E C U R I T Y&nbsp;&nbsp;&nbsp;&nbsp;H O L D</div>
-      <p style="font-size: 14px; color: #57606a; line-height: 1.7; margin-bottom: 30px; font-weight: 600;">
-        This intelligence terminal has been secured under Operational Directive 01. Unattended active terminals are locked to preserve crown counter-fraud intelligence integrity.
+      <img src="n.png" alt="PSIS Logo" style="height: 60px; margin-bottom: 20px;" onerror="this.style.display='none'">
+      <div style="font-size: 12px; font-weight: 900; letter-spacing: 3px; color: var(--accent-blue); margin-bottom: 8px;">PSIS ENTERPRISE SECURITY // DIRECTIVE 01</div>
+      <div style="font-size: 30px; font-weight: 900; letter-spacing: 4px; color: #1f2328; margin-bottom: 16px;">TERMINAL SECURITY HOLD</div>
+      <p style="font-size: 13px; color: #57606a; line-height: 1.6; margin-bottom: 24px; font-weight: 600;">
+        This workstation has been secured due to inactivity or manual operator lock. Active session tokens remain protected under zero-trust client protocols.
       </p>
-      <button onclick="liftSecurityHold()" style="background: #1f2328; color: #fff; padding: 14px 28px; font-size: 12px;">RESTORE OPERATOR SESSION</button>
+      <button onclick="liftSecurityHold()" style="background: #1f2328; color: #fff; padding: 12px 24px; font-size: 12px;">RESTORE OPERATOR SESSION</button>
     </div>
   </div>
 
-  <!-- WARNING STAGE 1: MI6 / Crown Intelligence Statutory Notice -->
+  <!-- WARNING STAGE 1: PSIS Statutory Notice -->
   <div id="warningStage1" class="gate-overlay">
     <div class="gate-card">
       <img src="n.png" alt="PSIS Logo" class="brand-logo-gate" onerror="this.style.display='none'">
-      <div style="font-weight: 900; font-size: 22px; color: #fff; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">CROWN INTELNET: RESTRICTED INTELLIGENCE TERMINAL</div>
-      <div style="font-size: 12px; color: var(--accent-red); font-weight: 900; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1.5px;">Statutory Notice: Computer Misuse Act 1990 & Official Secrets Act 1989</div>
+      <div style="font-weight: 900; font-size: 18px; color: #fff; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">PSIS ENTERPRISE INTELLIGENCE TERMINAL</div>
+      <div style="font-size: 11px; color: var(--text-muted); font-weight: 800; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;">Regulatory Notice: Computer Misuse Act 1990 & Fraud Act 2006</div>
       
       <div class="legal-alert-box">
-        OFFICIAL NOTICE: YOU ARE ATTEMPTING TO ACCESS A PROTECTED SOVEREIGN INTELLIGENCE NETWORK. UNLAWFUL ACCESS, INTERCEPTION, OR PROBING CONSTITUTES A CRIMINAL OFFENCE UNDER SECTION 1 AND SECTION 3 OF THE COMPUTER MISUSE ACT 1990 AND BREACHES OF THE OFFICIAL SECRETS ACT 1989, CARRYING MANDATORY CUSTODIAL SENTENCES AND UNLIMITED FINES.
+        NOTICE: ACCESS TO THIS WORKSTATION IS RESTRICTED STRICTLY TO AUTHORIZED ANALYSTS OF THE PEOPLE'S SECRET INTELLIGENCE SERVICE (PSIS). UNAUTHORIZED ACCESS ATTEMPTS, DATA HARVESTING, OR SYSTEM PROBING ARE VIOLATIONS OF UK STATUTORY LAW PUNISHABLE BY CIVIL AND CRIMINAL PROSECUTION.
       </div>
 
-      <p style="font-size: 13px; color: var(--text-main); margin-bottom: 28px; line-height: 1.7;">
-        System security architecture operates under continuous automated telemetry surveillance. Access is restricted exclusively to authorized Crown Intelligence Analysts and verified personnel. Disconnect immediately if unaccredited.
+      <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.6;">
+        All telemetry, connection handshakes, and operator access events are logged under strict corporate compliance frameworks. Disconnect immediately if unaccredited.
       </p>
 
-      <button onclick="advanceWarning(2)" style="width: 100%; background: var(--accent-red); padding: 14px; font-size: 13px;">ACKNOWLEDGE STATUTORY NOTICE & PROCEED (1 OF 3)</button>
+      <button onclick="advanceWarning(2)" style="width: 100%; padding: 12px; font-size: 12px;">ACKNOWLEDGE NOTICE & PROCEED (1 OF 3)</button>
     </div>
   </div>
 
-  <!-- WARNING STAGE 2: Forensic Interception & Telemetry Surveillance -->
+  <!-- WARNING STAGE 2: Telemetry Audit -->
   <div id="warningStage2" class="gate-overlay" style="display: none;">
     <div class="gate-card">
       <img src="n.png" alt="PSIS Logo" class="brand-logo-gate" onerror="this.style.display='none'">
-      <div style="font-weight: 900; font-size: 22px; color: #fff; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">ACTIVE TELEMETRY INTERCEPTION & FORENSIC LOGGING</div>
-      <div style="font-size: 12px; color: var(--accent-red); font-weight: 900; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1.5px;">BS ISO/IEC 27001 Compliance // Mandatory Telemetry Audit</div>
+      <div style="font-weight: 900; font-size: 18px; color: #fff; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">ACTIVE TELEMETRY & AUDIT LOGGING</div>
+      <div style="font-size: 11px; color: var(--text-muted); font-weight: 800; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;">BS ISO/IEC 27001 Compliance Standard</div>
       
       <div class="legal-alert-box">
-        WARNING: PROCEEDING BEYOND THIS GATE GRANTS EXPLICIT CONSENT TO REAL-TIME FORENSIC CAPTURE. ALL INBOUND NETWORK ADDRESSES, HARDWARE FINGERPRINTS, CIPHER HANDSHAKES, AND SESSION TIMINGS ARE LOGGED PERMANENTLY FOR EVIDENTIAL PRESERVATION.
+        WARNING: CONTINUING BEYOND THIS GATE CONSTITUTES CONSENT TO REAL-TIME SECURITY TELEMETRY CAPTURE. NETWORK IDENTIFIERS, IP METRICS, AND SESSION HASHES ARE RECORDED TO MAINTAIN CHAIN OF CUSTODY FOR COUNTER-FRAUD EVIDENTIAL DOSSIERS.
       </div>
 
-      <p style="font-size: 13px; color: var(--text-main); margin-bottom: 28px; line-height: 1.7;">
-        Unauthorized data harvesting, script probing, or node interference triggers automated evidentiary compilation for referral to national counter-fraud command units and Crown Prosecution Service (CPS) review.
+      <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.6;">
+        Probing activities or unauthorized data extraction will result in automated evidentiary preservation and referral to appropriate law enforcement authorities.
       </p>
 
       <div style="display: flex; gap: 12px;">
-        <button onclick="advanceWarning(1)" class="btn-dark" style="flex: 1; padding: 14px;">ABORT & DISCONNECT</button>
-        <button onclick="advanceWarning(3)" style="flex: 1; background: var(--accent-red); padding: 14px; font-size: 13px;">PROCEED TO FINAL LEGAL THRESHOLD (2 OF 3)</button>
+        <button onclick="advanceWarning(1)" class="btn-dark" style="flex: 1; padding: 12px;">ABORT & DISCONNECT</button>
+        <button onclick="advanceWarning(3)" style="flex: 1; padding: 12px; font-size: 12px;">PROCEED TO FINAL GATE (2 OF 3)</button>
       </div>
     </div>
   </div>
 
-  <!-- WARNING STAGE 3: Final Legal Warning & Irrevocable Liability -->
+  <!-- WARNING STAGE 3: Final Legal Threshold -->
   <div id="warningStage3" class="gate-overlay" style="display: none;">
     <div class="gate-card">
       <img src="n.png" alt="PSIS Logo" class="brand-logo-gate" onerror="this.style.display='none'">
-      <div style="font-weight: 900; font-size: 22px; color: #fff; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">FINAL LEGAL THRESHOLD — IRREVOCABLE OPERATIONAL CONSENT</div>
-      <div style="font-size: 12px; color: var(--accent-red); font-weight: 900; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1.5px;">Fraud Act 2006 & Criminal Liability Notice</div>
+      <div style="font-weight: 900; font-size: 18px; color: #fff; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px;">FINAL OPERATIONAL CONSENT THRESHOLD</div>
+      <div style="font-size: 11px; color: var(--text-muted); font-weight: 800; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;">Enterprise Liability & Authorization Verification</div>
       
       <div class="legal-alert-box">
-        FINAL NOTICE: MALICIOUS ACTORS OR FRAUDULENT ASSOCIATES CROSSING THIS BOUNDARY ACKNOWLEDGE INTENT TO COMPROMISE ACTIVE COUNTER-FRAUD OPERATIONS, ACCEPTING FULL PERSONAL CIVIL AND CRIMINAL LIABILITY UNDER BRITISH JURISDICTION.
+        FINAL NOTICE: UNACCREDITED PARTIES OR ADVERSARIAL ENTITIES CROSSING THIS THRESHOLD ACKNOWLEDGE INTENT TO INTERFERE WITH ACTIVE COUNTER-FRAUD OPERATIONS, ACCEPTING FULL PERSONAL LEGAL LIABILITY.
       </div>
 
-      <p style="font-size: 13px; color: var(--text-main); margin-bottom: 28px; line-height: 1.7;">
-        Authorized analysts must authenticate using valid cryptographic credentials. All other parties must terminate connection immediately.
+      <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.6;">
+        Authorized analysts must supply valid cryptographic credentials on the following screen. All other parties must disconnect.
       </p>
 
       <div style="display: flex; gap: 12px;">
-        <button onclick="advanceWarning(2)" class="btn-dark" style="flex: 1; padding: 14px;">RETURN TO SAFETY</button>
-        <button onclick="showLoginGate()" style="flex: 1; background: var(--accent-red); padding: 14px; font-size: 13px;">CONFIRM AUTHORIZATION & ENTER LOGIN</button>
+        <button onclick="advanceWarning(2)" class="btn-dark" style="flex: 1; padding: 12px;">RETURN TO SAFETY</button>
+        <button onclick="showLoginGate()" style="flex: 1; padding: 12px; font-size: 12px;">CONFIRM AUTHORIZATION</button>
       </div>
     </div>
   </div>
 
   <!-- OPERATOR LOGIN GATE -->
   <div id="kioskGate" class="gate-overlay" style="display: none;">
-    <div class="gate-card" style="border-color: var(--accent-blue); max-width: 600px;">
+    <div class="gate-card" style="max-width: 550px;">
       <img src="n.png" alt="PSIS Logo" class="brand-logo-gate" onerror="this.style.display='none'">
-      <div style="font-weight: 900; font-size: 18px; color: #fff; margin-bottom: 4px; text-transform: uppercase;">PSIS Terminal Authentication</div>
+      <div style="font-weight: 900; font-size: 16px; color: #fff; margin-bottom: 4px; text-transform: uppercase;">PSIS Terminal Authentication</div>
       <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 16px; text-transform: uppercase;">Cryptographic Key Derivation // AES-256-GCM</div>
       
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
@@ -207,11 +207,11 @@
 
     <!-- Priority Emergency Control Ribbon -->
     <div class="emergency-ribbon">
-      <div style="font-size: 11px; font-weight: 900; color: #ff7b72; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px;">
-        <span>PRIORITY EMERGENCY CONTROLS (GLOBAL REAL-TIME BROADCAST)</span>
+      <div style="font-size: 11px; font-weight: 900; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">
+        PRIORITY EMERGENCY CONTROLS (GLOBAL PERSISTENT BROADCAST)
       </div>
       <div style="display: flex; gap: 8px;">
-        <button onclick="triggerGlobalSiteEvac()" class="btn-danger" style="padding: 8px 14px; font-size: 11px;">GLOBAL SITE EVACUATION (VAD + AUDIO)</button>
+        <button onclick="triggerGlobalSiteEvac()" class="btn-danger" style="padding: 8px 14px; font-size: 11px;">GLOBAL SITE EVACUATION</button>
         <button onclick="triggerGlobalLockdown()" class="btn-dark" style="background: #3d2200; border-color: var(--accent-gold); color: var(--accent-gold); padding: 8px 14px; font-size: 11px;">FACILITY LOCKDOWN</button>
         <button onclick="triggerCloseScreen()" class="btn-dark" style="padding: 8px 14px; font-size: 11px;">CLOSE SCREEN (HOLD)</button>
       </div>
@@ -380,8 +380,7 @@
             ADMINISTRATOR SESSION ACTIVE: Full override capabilities enabled.
           </div>
           <div style="display: flex; flex-direction: column; gap: 12px;">
-            <button onclick="silenceGlobalAlarms()" class="btn-dark" style="padding: 12px;">SILENCE GLOBAL EMERGENCY ALARMS</button>
-            <button onclick="clearGlobalLockdown()" class="btn-dark" style="padding: 12px;">DISENGAGE GLOBAL LOCKDOWN</button>
+            <button onclick="clearGlobalLockdown()" class="btn-dark" style="padding: 12px;">DISENGAGE GLOBAL LOCKDOWN / CLEAR ALARMS</button>
             <button onclick="triggerEvacuation()" class="btn-danger" style="padding: 12px;">EXECUTE TERMINAL WIPE (PROTOCOL OMEGA OVERRIDE)</button>
           </div>
         </div>
@@ -428,7 +427,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 
-  <!-- FIREBASE REAL-TIME GLOBAL SIGNAL LISTENER -->
+  <!-- FIREBASE REAL-TIME GLOBAL PERSISTENT SIGNAL LISTENER -->
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 
@@ -439,8 +438,7 @@
       document.getElementById('ukClock').innerText = ukTimeStr + ' BST';
     }, 1000);
 
-    // Firebase Global Emergency Synchronization Config
-    // Note: This connects all active terminals worldwide via an open WebSocket
+    // Firebase Persistent Global Emergency Configuration
     const firebaseConfig = {
       databaseURL: "https://psis-global-emergency-default-rtdb.europe-west1.firebasedatabase.app"
     };
@@ -451,7 +449,7 @@
         firebase.initializeApp(firebaseConfig);
         globalSignalRef = firebase.database().ref("psis_global_signal");
 
-        // Global Cross-World Real-Time Listener (LAN, WAN, Cross-Continent)
+        // Persistent Global Real-Time Listener (Survives Logins, Reloads, and Reboots)
         globalSignalRef.on("value", (snapshot) => {
           const signal = snapshot.val();
           if (!signal) return;
@@ -466,10 +464,10 @@
         });
       }
     } catch(e) {
-      console.warn("Global Cross-World Real-Time Signaling running in local broadcast mode.");
+      console.warn("Cloud synchronization offline. Running secure local fallback mode.");
     }
 
-    // Local Cross-Tab Backup Fallback
+    // Local Cross-Tab Fallback
     const psisBroadcastChannel = new BroadcastChannel('psis_global_emergency_channel');
     psisBroadcastChannel.onmessage = function (event) {
       const data = event.data;
@@ -499,7 +497,7 @@
       const evacAudio = document.getElementById('siteEvacAudio');
       if (evacAudio) {
         evacAudio.currentTime = 0;
-        evacAudio.play().catch(e => console.log("Audio playback blocked by browser policy:", e));
+        evacAudio.play().catch(e => console.log("Audio playback deferred to operator interaction:", e));
       }
     }
 
@@ -550,7 +548,7 @@
       document.getElementById('vadsStrobeOverlay').style.display = 'none';
     }
 
-    // Global Triggers Across WAN/LAN
+    // Global Persistent Triggers
     function triggerGlobalSiteEvac() {
       if (globalSignalRef) globalSignalRef.set({ state: "EVAC", timestamp: Date.now() });
       psisBroadcastChannel.postMessage({ type: 'SITE_EVAC' });
@@ -563,14 +561,10 @@
       executeLockdownSequenceLocally();
     }
 
-    function silenceGlobalAlarms() {
+    function clearGlobalLockdown() {
       if (globalSignalRef) globalSignalRef.set({ state: "NORMAL", timestamp: Date.now() });
       psisBroadcastChannel.postMessage({ type: 'SILENCE' });
       executeSilenceLocally();
-    }
-
-    function clearGlobalLockdown() {
-      silenceGlobalAlarms();
     }
 
     function triggerCloseScreen() {
