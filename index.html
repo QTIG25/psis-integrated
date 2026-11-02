@@ -7,10 +7,10 @@
   <title>PSIS Integrated — Secure Intelligence Terminal</title>
   <style>
     :root {
-      --bg-base: #07090d;
-      --bg-surface: #0f131c;
-      --bg-card: #151a26;
-      --border-color: #222b3d;
+      --bg-base: #05070a;
+      --bg-surface: #0d111a;
+      --bg-card: #131a26;
+      --border-color: #1f2a3d;
       --text-main: #c9d1d9;
       --text-muted: #8b949e;
       --accent-blue: #1f6feb;
@@ -19,19 +19,19 @@
       --accent-green: #238636;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-    body { background-color: var(--bg-base); color: var(--text-main); padding: 24px; line-height: 1.6; }
+    body { background-color: var(--bg-base); color: var(--text-main); padding: 20px; line-height: 1.6; }
     
-    /* Full-Width Clear Legal Warning Overlays (WCAG AA 2.2 Compliant) */
-    .gate-overlay { position: fixed; inset: 0; background: var(--bg-base); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 40px; overflow-y: auto; }
-    .gate-card { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 8px; width: 100%; max-width: 960px; padding: 60px; box-shadow: 0 24px 64px rgba(0,0,0,0.6); text-align: left; }
-    .legal-alert-box { background: rgba(31,111,235,0.06); border-left: 4px solid var(--accent-blue); padding: 24px; font-size: 14px; color: var(--text-main); font-weight: 500; margin-bottom: 28px; line-height: 1.8; }
+    /* Full-Width Legal Warning Overlays (WCAG AA 2.2 Compliant) */
+    .gate-overlay { position: fixed; inset: 0; background: var(--bg-base); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 30px; overflow-y: auto; }
+    .gate-card { background: var(--bg-surface); border: 1.5px solid var(--border-color); border-radius: 8px; width: 100%; max-width: 960px; padding: 50px; box-shadow: 0 30px 80px rgba(0,0,0,0.7); text-align: left; }
+    .legal-alert-box { background: rgba(31,111,235,0.06); border-left: 4px solid var(--accent-blue); padding: 22px; font-size: 13px; color: var(--text-main); font-weight: 500; margin-bottom: 24px; line-height: 1.8; }
     
-    .brand-logo-gate { height: 75px; width: auto; margin-bottom: 24px; display: block; }
-    .brand-logo-header { height: 36px; width: auto; margin-right: 12px; }
+    .brand-logo-gate { height: 70px; width: auto; margin-bottom: 20px; display: block; }
+    .brand-logo-header { height: 34px; width: auto; margin-right: 12px; }
 
     /* Security Hold Screen */
     #securityHoldScreen { position: fixed; inset: 0; background: #ffffff; color: #1f2328; z-index: 9998; display: none; align-items: center; justify-content: center; padding: 40px; font-family: Helvetica, Arial, sans-serif; }
-    .hold-content { max-width: 700px; border: 3px solid var(--accent-blue); padding: 50px; text-align: center; }
+    .hold-content { max-width: 650px; border: 3px solid var(--accent-blue); padding: 45px; text-align: center; }
 
     /* BS EN 54-23 Visual Alarm Devices (VADs) Strobe Overlay */
     #vadsStrobeOverlay { position: fixed; inset: 0; pointer-events: none; z-index: 9995; display: none; border: 8px solid var(--accent-red); animation: vadStrobeFlash 0.5s infinite alternate; }
@@ -42,22 +42,23 @@
     @keyframes pulseBanner { from { background: #da3633; } to { background: #9e2a2b; } }
 
     /* Dashboard Layout */
-    #dashboardApp { display: none; max-width: 1300px; margin: 0 auto; }
-    header { display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface); border: 1px solid var(--border-color); padding: 16px 24px; border-radius: 6px; margin-bottom: 20px; }
+    #dashboardApp { display: none; max-width: 1450px; margin: 0 auto; }
+    header { display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface); border: 1px solid var(--border-color); padding: 16px 24px; border-radius: 6px; margin-bottom: 16px; }
     .header-left { display: flex; align-items: center; }
     .brand { font-weight: 900; font-size: 16px; letter-spacing: 1px; color: #ffffff; text-transform: uppercase; }
     .brand span { color: var(--accent-blue); }
     
-    .emergency-ribbon { display: flex; gap: 10px; margin-bottom: 15px; background: rgba(218,54,51,0.08); border: 1px solid var(--border-color); padding: 12px; border-radius: 6px; align-items: center; justify-content: space-between; }
+    .emergency-ribbon { display: flex; gap: 10px; margin-bottom: 16px; background: rgba(218,54,51,0.06); border: 1px solid var(--border-color); padding: 12px 16px; border-radius: 6px; align-items: center; justify-content: space-between; }
 
-    .nav-bar { display: flex; gap: 8px; margin-bottom: 20px; background: var(--bg-surface); padding: 8px; border: 1px solid var(--border-color); border-radius: 6px; overflow-x: auto; }
-    .nav-btn { background: transparent; border: none; color: var(--text-muted); padding: 8px 14px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; border-radius: 4px; white-space: nowrap; }
+    .nav-bar { display: flex; gap: 6px; margin-bottom: 20px; background: var(--bg-surface); padding: 8px; border: 1px solid var(--border-color); border-radius: 6px; overflow-x: auto; }
+    .nav-btn { background: transparent; border: none; color: var(--text-muted); padding: 8px 12px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; border-radius: 4px; white-space: nowrap; }
     .nav-btn.active { background: var(--accent-blue); color: #fff; }
 
     .view-section { display: none; }
     .view-section.active { display: block; }
 
-    .grid-container { display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 20px; }
+    .grid-container { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-bottom: 20px; }
+    @media (max-width: 1000px) { .grid-container { grid-template-columns: 1fr; } }
     
     .panel { background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 6px; padding: 20px; margin-bottom: 20px; }
     .panel-title { font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); border-bottom: 1px solid var(--border-color); padding-bottom: 8px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
@@ -65,15 +66,21 @@
     input, select, textarea { width: 100%; padding: 10px 12px; background: var(--bg-base); border: 1px solid var(--border-color); border-radius: 4px; color: var(--text-main); font-size: 13px; margin-bottom: 12px; }
     input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent-blue); }
     
-    button { background-color: var(--accent-blue); color: #ffffff; border: none; padding: 12px 20px; font-weight: 800; font-size: 12px; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; }
+    button { background-color: var(--accent-blue); color: #ffffff; border: none; padding: 10px 18px; font-weight: 800; font-size: 11px; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; }
     button:hover { opacity: 0.9; }
     .btn-dark { background-color: var(--bg-card); border: 1px solid var(--border-color); }
     .btn-danger { background-color: var(--accent-red); color: #fff; }
+    .btn-gold { background-color: #3d2200; border: 1px solid var(--accent-gold); color: var(--accent-gold); }
 
-    .osint-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-    .osint-card { background: var(--bg-card); border: 1px solid var(--border-color); padding: 16px; border-radius: 6px; display: flex; flex-direction: column; justify-content: space-between; }
-    .osint-card h4 { font-size: 13px; color: #fff; margin-bottom: 6px; font-weight: 800; }
+    .osint-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+    .osint-card { background: var(--bg-card); border: 1px solid var(--border-color); padding: 14px; border-radius: 6px; display: flex; flex-direction: column; justify-content: space-between; }
+    .osint-card h4 { font-size: 12px; color: #fff; margin-bottom: 6px; font-weight: 800; }
     .osint-card p { font-size: 11px; color: var(--text-muted); margin-bottom: 12px; }
+
+    .table-container { width: 100%; overflow-x: auto; margin-bottom: 12px; }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; text-align: left; }
+    th, td { padding: 10px 12px; border-bottom: 1px solid var(--border-color); }
+    th { color: var(--text-muted); font-weight: 800; text-transform: uppercase; font-size: 10px; background: var(--bg-card); }
 
     .status-bar { font-size: 11px; font-weight: 700; color: var(--text-muted); padding-top: 8px; border-top: 1px solid var(--border-color); margin-top: 12px; }
     footer { text-align: center; font-size: 10px; color: var(--text-muted); padding: 20px 0; border-top: 1px solid var(--border-color); margin-top: 40px; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -93,53 +100,53 @@
   <!-- SECURITY HOLD SCREEN -->
   <div id="securityHoldScreen">
     <div class="hold-content">
-      <img src="n.png" alt="PSIS Logo" style="height: 65px; margin-bottom: 20px;" onerror="this.style.display='none'">
-      <div style="font-size: 12px; font-weight: 900; letter-spacing: 3px; color: var(--accent-blue); margin-bottom: 8px;">PSIS OPERATIONAL DIRECTIVE 01</div>
-      <div style="font-size: 28px; font-weight: 900; letter-spacing: 3px; color: #1f2328; margin-bottom: 16px;">TERMINAL SECURITY HOLD</div>
-      <p style="font-size: 14px; color: #57606a; line-height: 1.7; margin-bottom: 28px; font-weight: 500;">
+      <img src="n.png" alt="PSIS Logo" style="height: 60px; margin-bottom: 20px;" onerror="this.style.display='none'">
+      <div style="font-size: 11px; font-weight: 900; letter-spacing: 3px; color: var(--accent-blue); margin-bottom: 8px;">PSIS OPERATIONAL DIRECTIVE 01</div>
+      <div style="font-size: 26px; font-weight: 900; letter-spacing: 3px; color: #1f2328; margin-bottom: 16px;">TERMINAL SECURITY HOLD</div>
+      <p style="font-size: 13px; color: #57606a; line-height: 1.7; margin-bottom: 24px; font-weight: 500;">
         This terminal has been secured due to user inactivity or manual operator lock. Active session tokens remain protected under standard zero-trust client protocols.
       </p>
-      <button onclick="liftSecurityHold()" style="background: #1f2328; color: #fff; padding: 14px 28px; font-size: 12px;">RESTORE OPERATOR SESSION</button>
+      <button onclick="liftSecurityHold()" style="background: #1f2328; color: #fff; padding: 12px 24px; font-size: 12px;">RESTORE OPERATOR SESSION</button>
     </div>
   </div>
 
-  <!-- WARNING STAGE 1: Formal Statutory Notice (UK Legal Framing) -->
+  <!-- WARNING STAGE 1: Formal Statutory Notice -->
   <div id="warningStage1" class="gate-overlay">
     <div class="gate-card">
       <img src="n.png" alt="PSIS Logo" class="brand-logo-gate" onerror="this.style.display='none'">
-      <div style="font-weight: 900; font-size: 22px; color: #fff; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">PSIS Integrated</div>
-      <div style="font-size: 12px; color: var(--text-muted); font-weight: 800; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 1px;">Statutory Notice: Computer Misuse Act 1990 & Fraud Act 2006</div>
+      <div style="font-weight: 900; font-size: 20px; color: #fff; margin-bottom: 6px; text-transform: uppercase;">PSIS Integrated</div>
+      <div style="font-size: 11px; color: var(--text-muted); font-weight: 800; margin-bottom: 22px; text-transform: uppercase; letter-spacing: 1px;">Statutory Notice: Computer Misuse Act 1990 & Fraud Act 2006</div>
       
       <div class="legal-alert-box">
         Access to this system is restricted strictly to authorised personnel and designated intelligence analysts of the People's Secret Intelligence Service (PSIS). Unauthorised access, modification of system data, or interference with counter-fraud operations constitutes a criminal offence under Sections 1, 2, and 3 of the Computer Misuse Act 1990, carrying potential custodial sentences and unlimited fines under United Kingdom jurisdiction.
       </div>
 
-      <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 32px; line-height: 1.8;">
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 28px; line-height: 1.8;">
         All connection attempts are subject to standard institutional record-keeping and audit governance. If you are not an authorised operator connected to active PSIS operations, you must disconnect immediately.
       </p>
 
-      <button onclick="advanceWarning(2)" style="width: 100%; padding: 14px; font-size: 13px;">ACKNOWLEDGE NOTICE & PROCEED (1 OF 3)</button>
+      <button onclick="advanceWarning(2)" style="width: 100%; padding: 14px; font-size: 12px;">ACKNOWLEDGE NOTICE & PROCEED (1 OF 3)</button>
     </div>
   </div>
 
-  <!-- WARNING STAGE 2: Operational Governance & Data Protection -->
+  <!-- WARNING STAGE 2: Operational Governance -->
   <div id="warningStage2" class="gate-overlay" style="display: none;">
     <div class="gate-card">
       <img src="n.png" alt="PSIS Logo" class="brand-logo-gate" onerror="this.style.display='none'">
-      <div style="font-weight: 900; font-size: 22px; color: #fff; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">PSIS Integrated</div>
-      <div style="font-size: 12px; color: var(--text-muted); font-weight: 800; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 1px;">Information Governance & Regulatory Compliance</div>
+      <div style="font-weight: 900; font-size: 20px; color: #fff; margin-bottom: 6px; text-transform: uppercase;">PSIS Integrated</div>
+      <div style="font-size: 11px; color: var(--text-muted); font-weight: 800; margin-bottom: 22px; text-transform: uppercase; letter-spacing: 1px;">Information Governance & Regulatory Compliance</div>
       
       <div class="legal-alert-box">
         By proceeding beyond this gate, you acknowledge that handling case files, intelligence dossiers, or victim-support records within this environment is governed by internal PSIS operational protocols and relevant United Kingdom data protection legislation (Data Protection Act 2018 / UK GDPR). Unauthorised export or distribution of intelligence material is strictly prohibited.
       </div>
 
-      <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 32px; line-height: 1.8;">
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 28px; line-height: 1.8;">
         Operators are personally responsible for maintaining the confidentiality and secure handling of all investigative materials compiled within this workspace.
       </p>
 
-      <div style="display: flex; gap: 16px;">
+      <div style="display: flex; gap: 14px;">
         <button onclick="advanceWarning(1)" class="btn-dark" style="flex: 1; padding: 14px;">ABORT & DISCONNECT</button>
-        <button onclick="advanceWarning(3)" style="flex: 1; padding: 14px; font-size: 13px;">PROCEED TO FINAL GATE (2 OF 3)</button>
+        <button onclick="advanceWarning(3)" style="flex: 1; padding: 14px; font-size: 12px;">PROCEED TO FINAL GATE (2 OF 3)</button>
       </div>
     </div>
   </div>
@@ -148,43 +155,43 @@
   <div id="warningStage3" class="gate-overlay" style="display: none;">
     <div class="gate-card">
       <img src="n.png" alt="PSIS Logo" class="brand-logo-gate" onerror="this.style.display='none'">
-      <div style="font-weight: 900; font-size: 22px; color: #fff; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">PSIS Integrated</div>
-      <div style="font-size: 12px; color: var(--text-muted); font-weight: 800; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 1px;">Final Operational Threshold & Liability Notice</div>
+      <div style="font-weight: 900; font-size: 20px; color: #fff; margin-bottom: 6px; text-transform: uppercase;">PSIS Integrated</div>
+      <div style="font-size: 11px; color: var(--text-muted); font-weight: 800; margin-bottom: 22px; text-transform: uppercase; letter-spacing: 1px;">Final Operational Threshold & Liability Notice</div>
       
       <div class="legal-alert-box">
         Unauthorised third parties attempting to probe, extract, or compromise active counter-fraud infrastructure accept full legal liability under applicable civil and criminal statutes. Continued access requires valid cryptographic credentials matched against authorised operator profiles.
       </div>
 
-      <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 32px; line-height: 1.8;">
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 28px; line-height: 1.8;">
         If you possess the necessary credentials, proceed to authentication. Otherwise, terminate your connection now.
       </p>
 
-      <div style="display: flex; gap: 16px;">
+      <div style="display: flex; gap: 14px;">
         <button onclick="advanceWarning(2)" class="btn-dark" style="flex: 1; padding: 14px;">RETURN TO PREVIOUS</button>
-        <button onclick="showLoginGate()" style="flex: 1; padding: 14px; font-size: 13px;">PROCEED TO AUTHENTICATION</button>
+        <button onclick="showLoginGate()" style="flex: 1; padding: 14px; font-size: 12px;">PROCEED TO AUTHENTICATION</button>
       </div>
     </div>
   </div>
 
   <!-- OPERATOR LOGIN GATE -->
   <div id="kioskGate" class="gate-overlay" style="display: none;">
-    <div class="gate-card" style="max-width: 650px;">
+    <div class="gate-card" style="max-width: 600px;">
       <img src="n.png" alt="PSIS Logo" class="brand-logo-gate" onerror="this.style.display='none'">
-      <div style="font-weight: 900; font-size: 20px; color: #fff; margin-bottom: 4px; text-transform: uppercase;">PSIS Integrated</div>
-      <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 24px; text-transform: uppercase;">Operator Authentication // AES-256-GCM Key Derivation</div>
+      <div style="font-weight: 900; font-size: 18px; color: #fff; margin-bottom: 4px; text-transform: uppercase;">PSIS Integrated</div>
+      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 22px; text-transform: uppercase;">Operator Authentication // AES-256-GCM Key Derivation</div>
       
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px;">
         <div>
-          <label style="display: block; font-size: 11px; font-weight: 800; text-transform: uppercase; margin-bottom: 6px;">Operator Callsign</label>
+          <label style="display: block; font-size: 10px; font-weight: 800; text-transform: uppercase; margin-bottom: 6px;">Operator Callsign</label>
           <input type="text" id="loginCallsign" placeholder="e.g. IA-101">
         </div>
         <div>
-          <label style="display: block; font-size: 11px; font-weight: 800; text-transform: uppercase; margin-bottom: 6px;">Passphrase Key</label>
+          <label style="display: block; font-size: 10px; font-weight: 800; text-transform: uppercase; margin-bottom: 6px;">Passphrase Key</label>
           <input type="password" id="loginPass" placeholder="Passphrase...">
         </div>
       </div>
       <button onclick="authenticateCryptographically()" style="width: 100%; padding: 14px;">Decrypt Workspace & Load Terminal</button>
-      <div id="gateError" style="font-size: 12px; color: var(--accent-red); font-weight: 800; margin-top: 12px; text-align: center;"></div>
+      <div id="gateError" style="font-size: 11px; color: var(--accent-red); font-weight: 800; margin-top: 10px; text-align: center;"></div>
     </div>
   </div>
 
@@ -195,7 +202,7 @@
         <img src="n.png" alt="PSIS Logo" class="brand-logo-header" onerror="this.style.display='none'">
         <div>
           <div class="brand"><span>PSIS</span> Integrated</div>
-          <div style="font-size: 10px; color: var(--text-muted); font-weight: 700; letter-spacing: 0.5px; margin-top: 2px;">ACTIVE OPERATOR: <span id="activeCallsignDisplay" style="color: var(--accent-blue);">IA-101</span></div>
+          <div style="font-size: 10px; color: var(--text-muted); font-weight: 700; letter-spacing: 0.5px; margin-top: 2px;">ACTIVE OPERATOR: <span id="activeCallsignDisplay" style="color: var(--accent-blue);">IA-101</span> | THREAT LEVEL: <span style="color: var(--accent-gold);">ELEVATED</span></div>
         </div>
       </div>
       <div style="text-align: right;">
@@ -211,7 +218,7 @@
       </div>
       <div style="display: flex; gap: 8px;">
         <button onclick="triggerGlobalSiteEvac()" class="btn-danger" style="padding: 8px 14px; font-size: 11px;">GLOBAL SITE EVACUATION</button>
-        <button onclick="triggerGlobalLockdown()" class="btn-dark" style="background: #3d2200; border-color: var(--accent-gold); color: var(--accent-gold); padding: 8px 14px; font-size: 11px;">FACILITY LOCKDOWN</button>
+        <button onclick="triggerGlobalLockdown()" class="btn-gold" style="padding: 8px 14px; font-size: 11px;">FACILITY LOCKDOWN</button>
         <button onclick="triggerCloseScreen()" class="btn-dark" style="padding: 8px 14px; font-size: 11px;">CLOSE SCREEN (HOLD)</button>
       </div>
     </div>
@@ -219,9 +226,10 @@
     <!-- Navigation Bar -->
     <div class="nav-bar">
       <button class="nav-btn active" onclick="switchView('overview')">Operations Deck</button>
+      <button class="nav-btn" onclick="switchView('targets')">Target Dossiers</button>
       <button class="nav-btn" onclick="switchView('osint')">OSINT Repository</button>
       <button class="nav-btn" onclick="switchView('cipher')">Crypto Engine</button>
-      <button class="nav-btn" onclick="switchView('reports')">Report Generator</button>
+      <button class="nav-btn" onclick="switchView('reports')">Law Enforcement Report</button>
       <button class="nav-btn" onclick="switchView('vault')">Encrypted Case Vault</button>
       <button class="nav-btn" onclick="switchView('syscontrols')">System Controls (Admin)</button>
       <button class="nav-btn" onclick="switchView('governance')">Boundaries & Docs</button>
@@ -232,21 +240,79 @@
     <div id="view-overview" class="view-section active">
       <div class="grid-container">
         <div class="panel">
-          <div class="panel-title"><span>Watch Officer Shift Log</span><span>Active</span></div>
+          <div class="panel-title"><span>Watch Officer Shift Log & Active Telemetry</span><span>Live Feed</span></div>
           <select id="shiftStatusSelect">
             <option value="ACTIVE MONITORING">ACTIVE MONITORING</option>
             <option value="TARGET TRACKING">TARGET TRACKING</option>
             <option value="EVIDENCE COMPILATION">EVIDENCE COMPILATION</option>
             <option value="OFF-WATCH / STANDBY">OFF-WATCH / STANDBY</option>
           </select>
-          <textarea id="shiftNotes" rows="4" placeholder="Record telemetry observations or operational milestones under standard compliance frameworks..."></textarea>
+          <textarea id="shiftNotes" rows="4" placeholder="Record telemetry observations, domain discoveries, or investigative milestones..."></textarea>
           <button onclick="logShift()" style="width: 100%;">Commit Shift Entry</button>
           <div id="shiftStatus" class="status-bar">System ready for log entry.</div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title"><span>Active Operations Summary</span><span>Metrics</span></div>
+          <div style="font-size: 12px; display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: flex; justify-content: space-between; padding-bottom: 6px; border-bottom: 1px solid var(--border-color);">
+              <span style="color: var(--text-muted);">Active Target Dossiers:</span>
+              <span id="statTargetCount" style="font-weight: 800; color: #fff;">0</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding-bottom: 6px; border-bottom: 1px solid var(--border-color);">
+              <span style="color: var(--text-muted);">Shift Logs Recorded:</span>
+              <span id="statShiftCount" style="font-weight: 800; color: #fff;">0</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding-bottom: 6px; border-bottom: 1px solid var(--border-color);">
+              <span style="color: var(--text-muted);">Network Status:</span>
+              <span style="font-weight: 800; color: var(--accent-green);">SECURE / ENCRYPTED</span>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--text-muted);">Jurisdiction:</span>
+              <span style="font-weight: 800; color: var(--accent-blue);">United Kingdom (UK)</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- VIEW 2: OSINT REPOSITORY -->
+    <!-- VIEW 2: TARGET DOSSIERS -->
+    <div id="view-targets" class="view-section">
+      <div class="panel">
+        <div class="panel-title"><span>Fraud Target Dossier Manager</span><span>Evidence Registry</span></div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+          <input type="text" id="targetName" placeholder="Target Scam / Entity Name">
+          <input type="text" id="targetIdentifier" placeholder="Website / Wallet / IBAN / Email">
+          <select id="targetSeverity">
+            <option value="LOW">SEVERITY: LOW</option>
+            <option value="MEDIUM">SEVERITY: MEDIUM</option>
+            <option value="HIGH">SEVERITY: HIGH</option>
+            <option value="CRITICAL">SEVERITY: CRITICAL</option>
+          </select>
+        </div>
+        <textarea id="targetDetails" rows="3" placeholder="Summary of fraudulent activities, phishing vectors, or financial accounts..."></textarea>
+        <button onclick="addTargetDossier()" style="width: 100%; margin-bottom: 20px;">Add Target to Dossier Registry</button>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Target Entity</th>
+                <th>Identifier</th>
+                <th>Severity</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody id="targetTableBody">
+              <tr><td colspan="5" style="text-align: center; color: var(--text-muted);">No targets currently recorded in dossier registry.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 3: OSINT REPOSITORY -->
     <div id="view-osint" class="view-section">
       <div class="panel">
         <div class="panel-title"><span>OSINT Intelligence Repository</span><span>Verified Tooling</span></div>
@@ -304,7 +370,7 @@
       </div>
     </div>
 
-    <!-- VIEW 3: CRYPTO ENGINE -->
+    <!-- VIEW 4: CRYPTO ENGINE -->
     <div id="view-cipher" class="view-section">
       <div class="panel" style="max-width: 800px; margin: 0 auto;">
         <div class="panel-title"><span>AES-256-GCM Cipher Engine</span><span>Cryptographic Module</span></div>
@@ -318,30 +384,30 @@
       </div>
     </div>
 
-    <!-- VIEW 4: REPORT GENERATOR -->
+    <!-- VIEW 5: LAW ENFORCEMENT REPORT GENERATOR -->
     <div id="view-reports" class="view-section">
       <div class="panel" style="max-width: 800px; margin: 0 auto;">
-        <div class="panel-title"><span>Intelligence Report Generator</span><span>PDF Export (Branded)</span></div>
+        <div class="panel-title"><span>Law Enforcement Evidential Report Generator</span><span>PDF Export (Branded)</span></div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
           <input type="text" id="rptTitle" placeholder="Operation / Scam Subject Title">
           <input type="text" id="rptLocation" placeholder="Target Sector / Node">
         </div>
         <input type="text" id="rptEntities" placeholder="Target Scammer / Wallet / Account Identifiers">
-        <textarea id="rptFindings" rows="4" placeholder="1.0 Executive Intelligence Findings & Evidence Telemetry..."></textarea>
-        <textarea id="rptRecommendation" rows="2" placeholder="2.0 Operational Assessment & Directives..."></textarea>
+        <textarea id="rptFindings" rows="4" placeholder="1.0 Executive Intelligence Findings & Evidence Summary..."></textarea>
+        <textarea id="rptRecommendation" rows="2" placeholder="2.0 Operational Assessment & Law Enforcement Referral Directives..."></textarea>
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <div id="rptStatus" class="status-bar" style="border: none; padding: 0;">Ready for document compilation.</div>
-          <button onclick="generatePDF()">Compile & Export PDF</button>
+          <button onclick="generatePDF()">Compile & Export PDF Dossier</button>
         </div>
       </div>
     </div>
 
-    <!-- VIEW 5: ENCRYPTED CASE VAULT -->
+    <!-- VIEW 6: ENCRYPTED CASE VAULT -->
     <div id="view-vault" class="view-section">
       <div class="panel" style="max-width: 800px; margin: 0 auto;">
         <div class="panel-title"><span>Encrypted Case Vault Manager</span><span>Zero-Server Persistence</span></div>
         <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 16px;">
-          Prevent browser cache data loss by exporting all shift entries, notes, and threat telemetry into an encrypted <code>.psis</code> file vault (AES-256-GCM).
+          Prevent browser cache data loss by exporting all shift entries, target dossiers, and threat telemetry into an encrypted <code>.psis</code> file vault (AES-256-GCM).
         </p>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
@@ -362,7 +428,7 @@
       </div>
     </div>
 
-    <!-- VIEW 6: SYSTEM CONTROLS (ADMIN) -->
+    <!-- VIEW 7: SYSTEM CONTROLS (ADMIN) -->
     <div id="view-syscontrols" class="view-section">
       <div class="panel" style="max-width: 700px; margin: 0 auto;">
         <div class="panel-title"><span>System Administrator Controls</span><span>Restricted Access</span></div>
@@ -386,7 +452,7 @@
       </div>
     </div>
 
-    <!-- VIEW 7: GOVERNANCE & BOUNDARIES -->
+    <!-- VIEW 8: GOVERNANCE & BOUNDARIES -->
     <div id="view-governance" class="view-section">
       <div class="panel" style="max-width: 900px; margin: 0 auto;">
         <div class="panel-title"><span>Formal Documentation & Operational Standards</span><span>PSIS Directive 01</span></div>
@@ -403,7 +469,7 @@
       </div>
     </div>
 
-    <!-- VIEW 8: SYSTEM ARCHITECTURE -->
+    <!-- VIEW 9: SYSTEM ARCHITECTURE -->
     <div id="view-architecture" class="view-section">
       <div class="panel" style="max-width: 900px; margin: 0 auto;">
         <div class="panel-title"><span>System Architecture & Security Specification</span><span>Zero-Trust Whitepaper</span></div>
@@ -596,7 +662,7 @@
     // Cryptographic Decryption-as-Authentication Engine
     let activeSessionKey = null;
     let activeCallsign = "IA-UNKNOWN";
-    let activeWorkspaceState = { shiftLogs: [] };
+    let activeWorkspaceState = { shiftLogs: [], targets: [] };
 
     async function deriveKeyFromPassword(password, salt) {
       const enc = new TextEncoder();
@@ -638,6 +704,54 @@
       activeWorkspaceState.shiftLogs.push({ time: new Date().toUTCString(), notes: notes });
       document.getElementById('shiftStatus').innerText = "Shift entry committed to secure local memory at " + new Date().toUTCString();
       document.getElementById('shiftStatus').style.color = "var(--accent-green)";
+      document.getElementById('statShiftCount').innerText = activeWorkspaceState.shiftLogs.length;
+      document.getElementById('shiftNotes').value = '';
+    }
+
+    // Target Dossier Manager
+    function addTargetDossier() {
+      const name = document.getElementById('targetName').value.trim();
+      const identifier = document.getElementById('targetIdentifier').value.trim();
+      const severity = document.getElementById('targetSeverity').value;
+      const details = document.getElementById('targetDetails').value.trim();
+
+      if (!name || !identifier) { alert("Target name and identifier required."); return; }
+
+      const dossier = { time: new Date().toUTCString(), name, identifier, severity, details };
+      activeWorkspaceState.targets.push(dossier);
+
+      renderTargetTable();
+      document.getElementById('statTargetCount').innerText = activeWorkspaceState.targets.length;
+
+      document.getElementById('targetName').value = '';
+      document.getElementById('targetIdentifier').value = '';
+      document.getElementById('targetDetails').value = '';
+      alert("Target successfully committed to dossier registry.");
+    }
+
+    function renderTargetTable() {
+      const tbody = document.getElementById('targetTableBody');
+      if (activeWorkspaceState.targets.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">No targets currently recorded in dossier registry.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = '';
+      activeWorkspaceState.targets.forEach(t => {
+        let sevColor = 'var(--accent-blue)';
+        if (t.severity === 'HIGH') sevColor = 'var(--accent-gold)';
+        if (t.severity === 'CRITICAL') sevColor = 'var(--accent-red)';
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td style="font-family: monospace; font-size: 11px;">${t.time}</td>
+          <td style="font-weight: 800; color: #fff;">${t.name}</td>
+          <td style="font-family: monospace; color: var(--accent-blue);">${t.identifier}</td>
+          <td><span style="color: ${sevColor}; font-weight: 900;">${t.severity}</span></td>
+          <td>${t.details || 'N/A'}</td>
+        `;
+        tbody.appendChild(row);
+      });
     }
 
     // AES-256-GCM Cipher Tools
@@ -708,6 +822,10 @@
           const parsed = JSON.parse(new TextDecoder().decode(decrypted));
           
           activeWorkspaceState = parsed.state;
+          renderTargetTable();
+          document.getElementById('statTargetCount').innerText = activeWorkspaceState.targets.length;
+          document.getElementById('statShiftCount').innerText = activeWorkspaceState.shiftLogs.length;
+
           document.getElementById('vaultStatus').innerText = `Case vault imported successfully from analyst ${parsed.callsign}.`;
           alert(`Vault successfully loaded! Exported at: ${parsed.exportedAt}`);
         } catch(err) {
@@ -749,30 +867,37 @@
         ctx.drawImage(img, 0, 0);
         const logoDataURL = canvas.toDataURL('image/png');
 
+        const targetsBody = [[{ text: 'Timestamp', bold: true }, { text: 'Target Name', bold: true }, { text: 'Identifier', bold: true }, { text: 'Severity', bold: true }]];
+        activeWorkspaceState.targets.forEach(t => {
+          targetsBody.push([t.time, t.name, t.identifier, t.severity]);
+        });
+
         const docDefinition = {
           pageSize: 'LETTER',
           pageMargins: [40, 40, 40, 40],
           content: [
             { image: logoDataURL, width: 45, alignment: 'center', margin: [0, 0, 0, 10] },
             { text: 'CONFIDENTIAL // OFFICIAL SENSITIVE // PSIS INTERNAL USE ONLY', alignment: 'center', fontSize: 9, bold: true, color: '#d29922', margin: [0,0,0,15] },
-            { text: 'PSIS Integrated — Intelligence Report', fontSize: 20, bold: true, color: '#1f6feb' },
-            { text: `REF: ${ref} | TIMESTAMP: ${new Date().toUTCString()}`, fontSize: 9, color: '#57606a', margin: [0, 2, 0, 15] },
+            { text: 'PSIS Integrated — Law Enforcement Referral Dossier', fontSize: 18, bold: true, color: '#1f6feb' },
+            { text: `REF: ${ref} | OPERATOR: ${activeCallsign} | TIMESTAMP: ${new Date().toUTCString()}`, fontSize: 9, color: '#57606a', margin: [0, 2, 0, 15] },
             { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 532, y2: 0, lineWidth: 1.5, lineColor: '#222b3d' }] },
             {
               margin: [0, 15, 0, 15],
               table: { widths: ['*'], body: [[ { fillColor: '#151a26', margin: [10, 10, 10, 10], stack: [
-                { text: `SUBJECT: ${title.toUpperCase()}`, fontSize: 9, bold: true, color: '#ffffff' }
+                { text: `SUBJECT: ${title.toUpperCase()}`, fontSize: 10, bold: true, color: '#ffffff' }
               ]}]] }
             },
-            { text: '1.0 EXECUTIVE FINDINGS', fontSize: 10, bold: true, color: '#1f6feb', margin: [0, 10, 0, 4] },
+            { text: '1.0 EXECUTIVE INTELLIGENCE FINDINGS', fontSize: 10, bold: true, color: '#1f6feb', margin: [0, 10, 0, 4] },
             { text: document.getElementById('rptFindings').value || 'No findings recorded.', fontSize: 10, lineHeight: 1.4, margin: [0, 0, 0, 15] },
-            { text: '2.0 OPERATIONAL ASSESSMENT', fontSize: 10, bold: true, color: '#1f6feb', margin: [0, 10, 0, 4] },
-            { text: document.getElementById('rptRecommendation').value || 'Continued monitoring.', fontSize: 10, lineHeight: 1.4, margin: [0, 0, 0, 30] },
+            { text: '2.0 RECORDED TARGET DOSSIERS', fontSize: 10, bold: true, color: '#1f6feb', margin: [0, 10, 0, 4] },
+            activeWorkspaceState.targets.length > 0 ? { table: { headerRows: 1, widths: [100, 120, 150, 62], body: targetsBody }, fontSize: 9, margin: [0, 0, 0, 15] } : { text: 'No target dossiers attached.', fontSize: 9, color: '#8b949e', margin: [0, 0, 0, 15] },
+            { text: '3.0 LAW ENFORCEMENT REFERRAL DIRECTIVE', fontSize: 10, bold: true, color: '#1f6feb', margin: [0, 10, 0, 4] },
+            { text: document.getElementById('rptRecommendation').value || 'Referred for review under UK economic crime frameworks.', fontSize: 10, lineHeight: 1.4, margin: [0, 0, 0, 30] },
             { text: "Copyright © 2026 PSIS (The People's Secret Intelligence Service). All Rights Reserved.", fontSize: 8, color: '#8b949e', margin: [0, 10, 0, 0] }
           ]
         };
-        pdfMake.createPdf(docDefinition).download(`${ref}_REPORT.pdf`);
-        document.getElementById('rptStatus').innerText = "PDF report compiled successfully.";
+        pdfMake.createPdf(docDefinition).download(`${ref}_LAW_ENFORCEMENT_DOSSIER.pdf`);
+        document.getElementById('rptStatus').innerText = "Law enforcement PDF dossier compiled successfully.";
       };
       img.onerror = function() {
         alert("Logo asset 'n.png' could not be loaded into PDF generator.");
